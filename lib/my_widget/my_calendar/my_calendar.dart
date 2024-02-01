@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hair_designer_sales_manage/screens/main_item.dart';
 import 'package:intl/intl.dart';
 
 Map<String, int> weekday = {
@@ -10,6 +11,8 @@ Map<String, int> weekday = {
   "FRI": 6,
   "SAT": 7,
 };
+
+const double cellBorderWidth = 0.1;
 
 class MyCalendar extends StatefulWidget {
   MyCalendar({super.key});
@@ -37,6 +40,39 @@ class _MyCalendarState extends State<MyCalendar> {
     currentYear = int.parse(DateFormat('y').format(now));
   }
 
+  void setNextMonth() {
+    if (currentMonth == 12) {
+      currentYear++;
+      currentMonth = 1;
+    } else {
+      currentMonth++;
+    }
+
+    now = DateTime(currentYear, currentMonth);
+  }
+
+  void setPrevMonth() {
+    if (currentMonth == 1) {
+      currentYear--;
+      currentMonth = 12;
+    } else {
+      currentMonth--;
+    }
+
+    now = DateTime(currentYear, currentMonth);
+  }
+
+  void showMainItemAlert(BuildContext context, DateTime now) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: MainItem(now),
+          );
+        });
+  }
+
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 37, 0,
@@ -51,13 +87,7 @@ class _MyCalendarState extends State<MyCalendar> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                        if (currentMonth == 1) {
-                          currentYear--;
-                          currentMonth = 12;
-                        } else
-                          currentMonth--;
-
-                        now = DateTime(currentYear, currentMonth);
+                        setPrevMonth();
                       });
                     },
                     child: Icon(
@@ -79,13 +109,7 @@ class _MyCalendarState extends State<MyCalendar> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      if (currentMonth == 12) {
-                        currentYear++;
-                        currentMonth = 1;
-                      } else
-                        currentMonth++;
-
-                      now = DateTime(currentYear, currentMonth);
+                      setNextMonth();
                     });
                   },
                   child: Icon(
@@ -96,7 +120,36 @@ class _MyCalendarState extends State<MyCalendar> {
               ],
             ),
           ),
-          CalendarCol(now),
+          Expanded(
+              child: Container(
+            child: CalendarCol(now),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: cellBorderWidth)),
+          )),
+          Container(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                          padding: EdgeInsets.all(10),
+                          onPressed: () {
+                            showMainItemAlert(context, DateTime.now());
+                          },
+                          icon: Icon(
+                            Icons.add_circle,
+                            color: Colors.indigo,
+                            size: 60,
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  )
+                ],
+              ))
         ],
       ),
     );
@@ -124,8 +177,10 @@ class _CalendarColState extends State<CalendarCol> {
                   DateTime(widget.now.year, widget.now.month + 1, 0).day
               ? 6
               : 5,
-          (index) =>
-              CalendarRow(widget.now, index * 7 + 1 - (startingCell - 1))),
+          (index) => Expanded(
+              child: Container(
+                  child: CalendarRow(
+                      widget.now, index * 7 + 1 - (startingCell - 1))))),
     );
   }
 }
@@ -146,14 +201,18 @@ class _CalendarRowState extends State<CalendarRow> {
     return Row(
       children: List.generate(
           7,
-          (index) => CalendarCell(
-              widget.now,
-              widget.startDayOfWeek + index,
-              index == 0
-                  ? Colors.red
-                  : index == 6
-                      ? Colors.blue
-                      : Colors.black)),
+          (index) => Expanded(
+                child: Container(
+                  child: CalendarCell(
+                      widget.now,
+                      widget.startDayOfWeek + index,
+                      index == 0
+                          ? Colors.red
+                          : index == 6
+                              ? Colors.blue
+                              : Colors.black),
+                ),
+              )),
     );
   }
 }
@@ -172,16 +231,57 @@ class CalendarCell extends StatefulWidget {
 class _CalendarCellState extends State<CalendarCell> {
   @override
   Widget build(BuildContext context) {
-    final double cellWidth = MediaQuery.of(context).size.width * 5 / 37;
-    final double cellHeight = MediaQuery.of(context).size.height / 9;
-    final double cellBorderWidth = 0.5;
+    return Stack(
+        children: getCellContent(
+            widget.dayOfCell, widget.now.year, widget.now.month, widget.color));
+  }
+}
 
-    final bool isDate = true;
+List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
+  int lastDayOfCurrentMonth = DateTime(year, month + 1, 0).day;
+  List<Widget> textList = [];
+  List<Widget> returnList = [];
+  Container shadowContainer = Container(color: Colors.grey.withOpacity(0.15));
+  bool isNeedShadow = true;
+  Color incomeTextColor = Colors.blue[300]!;
 
-    return Container(
+  if (dayOfCell > 0 && dayOfCell <= lastDayOfCurrentMonth) {
+    textList.add(Text(dayOfCell.toString(), style: TextStyle(color: color)));
+    isNeedShadow = false;
+  } else if (dayOfCell <= 0) {
+    int lastDayOfPrevMonth = DateTime(year, month, 0).day;
+    int prevMonth = month != 1 ? month - 1 : 12;
+    textList.add(Text(
+        prevMonth.toString() +
+            '. ' +
+            (dayOfCell + lastDayOfPrevMonth).toString(),
+        style: TextStyle(color: color.withOpacity(0.5))));
+    incomeTextColor = incomeTextColor.withOpacity(0.5);
+  } else if (dayOfCell > lastDayOfCurrentMonth) {
+    int nextMonth = month != 12 ? month + 1 : 1;
+    textList.add(Text(
+        nextMonth.toString() +
+            '. ' +
+            (dayOfCell - lastDayOfCurrentMonth).toString(),
+        style: TextStyle(color: color.withOpacity(0.5))));
+    incomeTextColor = incomeTextColor.withOpacity(0.5);
+  } else {
+    textList.add(const Text(' '));
+  }
+
+  textList.add(const SizedBox(
+    height: 10,
+  ));
+  textList.add(Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Text('3,100,200', style: TextStyle(color: incomeTextColor, fontSize: 11)),
+    ],
+  ));
+
+  return [
+    Container(
         padding: EdgeInsets.all(2),
-        width: cellWidth,
-        height: cellHeight,
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: cellBorderWidth)),
         child: Row(
@@ -190,43 +290,11 @@ class _CalendarCellState extends State<CalendarCell> {
                 child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.dayOfCell > 0 &&
-                      widget.dayOfCell <=
-                          DateTime(widget.now.year, widget.now.month + 1, 0)
-                              .day)
-                    Text(widget.dayOfCell.toString(),
-                        style: TextStyle(
-                            color: widget.color)),
-                  Text(' ',
-                      style: TextStyle(
-                          color: widget.color)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('3,100,200',
-                          style: TextStyle(
-                              color: widget.color,
-                              fontSize: 11)),
-                    ],
-                  ),
-                  // 지출?
-                  //
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Text('3,100,200',
-                  //         style: TextStyle(
-                  //             color: widget.color,
-                  //             backgroundColor: Colors.grey,
-                  //             fontSize: 11)),
-                  //   ],
-                  // )
-
-                ],
+                children: textList,
               ),
             )),
           ],
-        ));
-  }
+        )),
+    if (isNeedShadow) shadowContainer
+  ];
 }
