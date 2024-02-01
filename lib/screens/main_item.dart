@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hair_designer_sales_manage/items/add_item.dart';
+import 'package:hair_designer_sales_manage/items/add_item_row.dart';
 import 'package:intl/intl.dart';
 
 class MainItem extends StatelessWidget {
@@ -33,8 +33,7 @@ class MainItem extends StatelessWidget {
           ),
           Expanded(
               child: Container(
-                alignment: Alignment.centerLeft,
-                child: AddItem(),
+                child: AddItemRow(now),
           )),
           Expanded(
               child: Container(
