@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 List<String> temp_itemNameList = ['커트', '펌', '염색', '오예'];
 List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000];
@@ -17,6 +19,17 @@ class _AddItemRowState extends State<AddItemRow> {
   String itemName = temp_itemNameList.first;
   int itemPrice = temp_itemPriceList.first;
   String itemPriceStr = temp_itemNameList.first;
+  final _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  bool _tryPriceValidation(){
+    final isValid = _formKey.currentState!.validate();
+    if(isValid){
+      _formKey.currentState!.save();
+    }
+
+    return isValid;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +40,11 @@ class _AddItemRowState extends State<AddItemRow> {
           width: 100,
           initialSelection: temp_itemNameList.first,
           onSelected: (String? value) {
-            // This is called when the user selects an item.
             setState(() {
               itemName = value!;
               itemPrice =
-                  temp_itemPriceList[temp_itemNameList.indexOf(itemName)];
+              temp_itemPriceList[temp_itemNameList.indexOf(itemName)];
+              _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(itemPrice));
             });
           },
           dropdownMenuEntries:
@@ -49,9 +62,33 @@ class _AddItemRowState extends State<AddItemRow> {
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(5)),
-              child: Text(
-                NumberFormat('###,###,###,###').format(itemPrice),
-                style: TextStyle(fontSize: 16),
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _controller,
+                  textAlign: TextAlign.end,
+                  decoration: InputDecoration(errorStyle: TextStyle(height: 0)),
+                  inputFormatters: [
+                    FilteringTextInputFormatter(RegExp('[0-9,]'), allow: true),
+                    CurrencyTextInputFormatter(
+                        locale: 'ko-KR', decimalDigits: 0, symbol: '')
+                  ],
+                  validator: (value){
+                    if (value!.isEmpty) {
+                      return '';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onTap: () {
+                    _controller.value = TextEditingValue(text: '');
+                  },
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) {
+                    itemPrice = int.parse(value!.replaceAll(',', ''));
+                    print(itemPrice);
+                  },
+                ),
               ),
             ),
             Container(
@@ -60,16 +97,13 @@ class _AddItemRowState extends State<AddItemRow> {
                     borderRadius: BorderRadius.circular(5)),
                 child: TextButton(
                     onPressed: () {
-                      print(DateFormat('y-MM-dd').format(widget.now) +
-                          ' ' +
-                          itemName +
-                          ' ' +
-                          itemPrice.toString());
-
-                      print(NumberFormat('###,###,###,###').format(itemPrice));
-                      print(int.parse(NumberFormat('###,###,###,###')
-                          .format(itemPrice)
-                          .replaceAll(',', '')));
+                      if(_tryPriceValidation()){
+                        print(DateFormat('y-MM-dd').format(widget.now) +
+                            ' ' +
+                            itemName +
+                            ' ' +
+                            itemPrice.toString());
+                      }
                     },
                     child: Text(
                       '추가',

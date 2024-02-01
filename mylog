@@ -1,8 +1,9 @@
-develope calendar #3
+add item row #1
 
 Details:
-modify calendar screen
-add main_item screen
+main_item screen
+add item row
 
 TODO:
-make add item
+develope item ListView
+modify to resize Listview on tap price textformfield
