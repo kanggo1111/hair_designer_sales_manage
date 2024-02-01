@@ -1,9 +1,8 @@
-add item row #1
+add item row #2
 
 Details:
-main_item screen
-add item row
+modify main_item screen not to overflow by keyboard
+develope item ListView
 
 TODO:
-develope item ListView
-modify to resize Listview on tap price textformfield
+modify to save and load item from internal storage

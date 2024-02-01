@@ -67,6 +67,8 @@ class _MyCalendarState extends State<MyCalendar> {
         context: context,
         builder: (context) {
           return Dialog(
+            insetAnimationCurve: Curves.easeIn,
+            insetAnimationDuration: Duration(milliseconds: 100),
             backgroundColor: Colors.white,
             child: MainItem(now),
           );

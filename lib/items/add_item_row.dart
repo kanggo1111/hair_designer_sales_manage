@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
-List<String> temp_itemNameList = ['커트', '펌', '염색', '오예'];
-List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000];
+List<String> temp_itemNameList = ['커트', '펌', '염색', '오예오예오예오예오예', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색'];
+List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000];
 
 class AddItemRow extends StatefulWidget {
   AddItemRow(this.now, {super.key});
@@ -36,38 +36,37 @@ class _AddItemRowState extends State<AddItemRow> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        DropdownMenu<String>(
-          width: 100,
-          initialSelection: temp_itemNameList.first,
-          onSelected: (String? value) {
-            setState(() {
-              itemName = value!;
-              itemPrice =
-              temp_itemPriceList[temp_itemNameList.indexOf(itemName)];
-              _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(itemPrice));
-            });
-          },
-          dropdownMenuEntries:
-              temp_itemNameList.map<DropdownMenuEntry<String>>((String value) {
-            return DropdownMenuEntry<String>(value: value, label: value);
-          }).toList(),
+        Container(
+          child: DropdownMenu<String>(
+            width: 120,
+            initialSelection: temp_itemNameList.first,
+            onSelected: (String? value) {
+              setState(() {
+                itemName = value!;
+                itemPrice =
+                temp_itemPriceList[temp_itemNameList.indexOf(itemName)];
+                _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(itemPrice));
+              });
+            },
+            dropdownMenuEntries:
+                temp_itemNameList.map<DropdownMenuEntry<String>>((String value) {
+              return DropdownMenuEntry<String>(value: value, label: value);
+            }).toList(),
+          ),
         ),
         Row(
           children: [
             Container(
               margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(horizontal: 5),
               alignment: AlignmentDirectional.centerEnd,
               width: 100,
-              decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(5)),
               child: Form(
                 key: _formKey,
                 child: TextFormField(
                   controller: _controller,
                   textAlign: TextAlign.end,
-                  decoration: InputDecoration(errorStyle: TextStyle(height: 0)),
+                  decoration: InputDecoration(errorStyle: TextStyle(height: 0), hintText: '0'),
                   inputFormatters: [
                     FilteringTextInputFormatter(RegExp('[0-9,]'), allow: true),
                     CurrencyTextInputFormatter(
