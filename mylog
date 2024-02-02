@@ -1,8 +1,9 @@
-add item row #2
+branch @devel-1
 
 Details:
-modify main_item screen not to overflow by keyboard
-develope item ListView
+make branch to devel another type of add item.
 
 TODO:
-modify to save and load item from internal storage
+add 지명/신규/대체/점판
+add 정애권
+
