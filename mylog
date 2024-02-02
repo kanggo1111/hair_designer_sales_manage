@@ -1,9 +1,7 @@
-branch @devel-1
+make navigator for main_screen, main_item
 
 Details:
-make branch to devel another type of add item.
+make navigator for main_screen, main_item
 
 TODO:
-add 지명/신규/대체/점판
-add 정애권
-
+modify main_item to item_screen

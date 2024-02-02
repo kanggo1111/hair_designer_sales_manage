@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/add_item_row.dart';
+import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class MainItem extends StatefulWidget {
   const MainItem(this.now, {super.key});
@@ -12,6 +14,23 @@ class MainItem extends StatefulWidget {
 }
 
 class _MainItemState extends State<MainItem> {
+
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Navigator.of(context).pop();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mainItemWidth = MediaQuery.of(context).size.width * 0.9;

@@ -138,7 +138,9 @@ class _MyCalendarState extends State<MyCalendar> {
                       IconButton(
                           padding: EdgeInsets.all(10),
                           onPressed: () {
-                            showMainItemAlert(context, DateTime.now());
+                            // widget._navigatorKey.currentState?.pushNamed('/B');
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainItem(now)));
+                            //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(
                             Icons.add_circle,

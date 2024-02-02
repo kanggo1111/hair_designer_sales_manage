@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dart';
+import 'package:hair_designer_sales_manage/screens/sub_srceen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -12,9 +13,11 @@ class MainScreen extends StatelessWidget {
         title: Text('Main Screen'),
         elevation: 0,
       ),
-      body: Center(
-        child: MyCalendar(),
-      ),
+      body: SubScreen()
+
+      // Center(
+      //   child: MyCalendar(),
+      // ),
     );
   }
 }
