@@ -1,7 +1,7 @@
-make navigator for main_screen, main_item
+refactor main_item to ItemOneDay
 
 Details:
-make navigator for main_screen, main_item
+refactor main_item to ItemOneDay
 
 TODO:
-modify main_item to item_screen
+modify ItemOneDay

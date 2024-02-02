@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hair_designer_sales_manage/screens/main_item.dart';
+import 'package:hair_designer_sales_manage/screens/item_one_day.dart';
 import 'package:intl/intl.dart';
 
 Map<String, int> weekday = {
@@ -70,7 +70,7 @@ class _MyCalendarState extends State<MyCalendar> {
             insetAnimationCurve: Curves.easeIn,
             insetAnimationDuration: Duration(milliseconds: 100),
             backgroundColor: Colors.white,
-            child: MainItem(now),
+            child: ItemOneDay(now),
           );
         });
   }
@@ -139,7 +139,7 @@ class _MyCalendarState extends State<MyCalendar> {
                           padding: EdgeInsets.all(10),
                           onPressed: () {
                             // widget._navigatorKey.currentState?.pushNamed('/B');
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainItem(now)));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemOneDay(now)));
                             //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(

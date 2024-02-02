@@ -4,16 +4,16 @@ import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dar
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
-class MainItem extends StatefulWidget {
-  const MainItem(this.now, {super.key});
+class ItemOneDay extends StatefulWidget {
+  const ItemOneDay(this.now, {super.key});
 
   final DateTime now;
 
   @override
-  State<MainItem> createState() => _MainItemState();
+  State<ItemOneDay> createState() => _ItemOneDayState();
 }
 
-class _MainItemState extends State<MainItem> {
+class _ItemOneDayState extends State<ItemOneDay> {
 
   void initState() {
     super.initState();
