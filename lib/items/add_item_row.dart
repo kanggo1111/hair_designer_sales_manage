@@ -122,27 +122,28 @@ class _AddItemState extends State<AddItem> {
                         color: Colors.indigo,
                         borderRadius: BorderRadius.circular(5)),
                     child: TextButton(
-                        onPressed: () {
+                        onPressed: () async{
                           if(_tryPriceValidation()){
-                            // print(DateFormat('y-MM-dd').format(widget.now) +
-                            //     ' ' +
-                            //     _itemType +
-                            //     ' ' +
-                            //     _itemName +
-                            //     ' ' +
-                            //     _itemPrice.toString());
-                          }
+                            List dataList = [];
+                            Map data1 = {};
+                            data1['date'] = DateFormat('y-MM-dd').format(widget.now);
+                            data1['itemType'] = _itemType;
+                            data1['itemName'] = _itemName;
+                            data1['itemPrice'] = _itemPrice;
+                            // Map data2 = {};
+                            // data2['date'] = '2024-01-01';
+                            // data2['itemType'] = '강고';
+                            // data2['itemName'] = '볶아';
+                            // data2['itemPrice'] = 10000;
+                            // print(data1);
+                            // print(data2);
 
-                          MyDB myDB = MyDB();
-                          // myDB.writeMyDB(DateFormat('y-MM-dd').format(widget.now) +
-                          //     ' ' +
-                          //     _itemType +
-                          //     ' ' +
-                          //     _itemName +
-                          //     ' ' +
-                          //     _itemPrice.toString());
-                          myDB.readMyDB();
-                          //myDB.resetMyDB();
+                            MyDB myDB = MyDB();
+                            await myDB.readMyDB();
+
+                            await myDB.writeMyDB(data1);
+                            //myDB.resetMyDB();
+                          }
                         },
                         child: Text(
                           '추가',
