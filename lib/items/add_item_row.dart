@@ -20,15 +20,6 @@ class _AddItemState extends State<AddItem> {
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _itemType = itemTypeList[0];
-  late MyDB myDB;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    myDB = MyDB();
-    myDB.readMyDB();
-  }
 
   bool _tryPriceValidation(){
     final isValid = _formKey.currentState!.validate();

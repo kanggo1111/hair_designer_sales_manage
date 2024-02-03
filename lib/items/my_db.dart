@@ -4,9 +4,10 @@ import 'package:path_provider/path_provider.dart';
 
 const MY_DATABASE_FILE_PATH = 'my_database.txt';
 
-class MyDB{
-  List<dynamic> currentData = List.empty(growable: true);
+late MyDB myDB;
+List<dynamic> currentData = List.empty(growable: true);
 
+class MyDB{
   MyDB();
 
   Future<String> get _localPath async {
