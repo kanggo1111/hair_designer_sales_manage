@@ -20,7 +20,15 @@ class _AddItemState extends State<AddItem> {
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _itemType = itemTypeList[0];
+  late MyDB myDB;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    myDB = MyDB();
+    myDB.readMyDB();
+  }
 
   bool _tryPriceValidation(){
     final isValid = _formKey.currentState!.validate();
@@ -124,24 +132,13 @@ class _AddItemState extends State<AddItem> {
                     child: TextButton(
                         onPressed: () async{
                           if(_tryPriceValidation()){
-                            List dataList = [];
-                            Map data1 = {};
-                            data1['date'] = DateFormat('y-MM-dd').format(widget.now);
-                            data1['itemType'] = _itemType;
-                            data1['itemName'] = _itemName;
-                            data1['itemPrice'] = _itemPrice;
-                            // Map data2 = {};
-                            // data2['date'] = '2024-01-01';
-                            // data2['itemType'] = '강고';
-                            // data2['itemName'] = '볶아';
-                            // data2['itemPrice'] = 10000;
-                            // print(data1);
-                            // print(data2);
+                            Map data = {};
+                            data['date'] = DateFormat('y-MM-dd').format(widget.now);
+                            data['itemType'] = _itemType;
+                            data['itemName'] = _itemName;
+                            data['itemPrice'] = _itemPrice;
 
-                            MyDB myDB = MyDB();
-                            await myDB.readMyDB();
-
-                            await myDB.writeMyDB(data1);
+                            await myDB.writeMyDB(data);
                             //myDB.resetMyDB();
                           }
                         },

@@ -29,14 +29,12 @@ class MyDB{
 
       List readData = jsonDecode(contents);
 
-      print('R1 '+ currentData.toString());
-      print('R2 '+ readData.toString());
       currentData.addAll(readData);
-      print('R3 '+ currentData.toString());
+      print('R '+ currentData.toString());
       return currentData;
     } catch (e) {
       // If encountering an error, return 0
-      print('catch');
+      print('readMyDB catch');
       return [];
     }
   }
@@ -47,12 +45,12 @@ class MyDB{
     // Write the file
 
     print('W1 '+ currentData.toString());
-    print('W2 '+ newData.toString());
+    //print('W2 '+ newData.toString());
 
-    currentData.add(newData);
-    print('W3 '+ currentData.toString());
+    //currentData.add(newData);
+    //print('W3 '+ currentData.toString());
 
-    String modifiedDataStr = jsonEncode(currentData);
+    //String modifiedDataStr = jsonEncode(currentData);
     //return file.writeAsString(modifiedDataStr);
 
     return file.writeAsString('', mode: FileMode.append);
