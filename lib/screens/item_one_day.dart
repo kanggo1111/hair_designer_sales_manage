@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/add_item_row.dart';
-import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:hair_designer_sales_manage/items/item_list.dart';
 
 class ItemOneDay extends StatefulWidget {
   const ItemOneDay(this.now, {super.key});
@@ -15,8 +13,6 @@ class ItemOneDay extends StatefulWidget {
 }
 
 class _ItemOneDayState extends State<ItemOneDay> {
-  String _itemType = itemTypeList[0];
-
   void initState() {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
@@ -64,33 +60,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                 ),
               ),
             ),
-            Row(
-                children: List.generate(
-              itemTypeList.length,
-              (index) => Container(
-                margin: EdgeInsets.all(5),
-                //color: Colors.redAccent,
-                width: 80,
-                child: RadioListTile(
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
-                  ),
-                  contentPadding: EdgeInsets.all(0),
-                  title: Text(itemTypeList[index]),
-                  value: itemTypeList[index],
-                  groupValue: _itemType,
-                  onChanged: (value) {
-                    setState(() {
-                      _itemType = value!;
-                    });
-                  },
-                ),
-              ),
-            )),
-            Container(
-              child: AddItemRow(widget.now),
-            ),
+            AddItem(widget.now),
           ],
         ),
       ),
