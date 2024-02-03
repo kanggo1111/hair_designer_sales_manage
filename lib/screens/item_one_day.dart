@@ -3,6 +3,7 @@ import 'package:hair_designer_sales_manage/items/add_item_row.dart';
 import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:hair_designer_sales_manage/items/item_list.dart';
 
 class ItemOneDay extends StatefulWidget {
   const ItemOneDay(this.now, {super.key});
@@ -14,6 +15,7 @@ class ItemOneDay extends StatefulWidget {
 }
 
 class _ItemOneDayState extends State<ItemOneDay> {
+  String _itemType = itemTypeList[0];
 
   void initState() {
     super.initState();
@@ -36,12 +38,11 @@ class _ItemOneDayState extends State<ItemOneDay> {
     final mainItemWidth = MediaQuery.of(context).size.width * 0.9;
     final mainItemHeight = MediaQuery.of(context).size.height * 0.9;
 
-    return SingleChildScrollView(
-      reverse: true,
-      child: Container(
-        margin: EdgeInsets.all(10),
-        width: mainItemWidth,
-        // height: mainItemHeight,
+    return Container(
+      margin: EdgeInsets.all(10),
+      width: mainItemWidth,
+      // height: mainItemHeight,
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Text(
@@ -58,16 +59,37 @@ class _ItemOneDayState extends State<ItemOneDay> {
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.blue.withOpacity(0.5),
-                  child: Text('1\n\n\n\n\n\n2\n\n\n\n\n\n\n3\n\n\n\n\n\n\n4\n\n\n\n\n\n\n5'),
+                  child: Text(
+                      '1\n\n\n\n\n\n2\n\n\n\n\n\n\n3\n\n\n\n\n\n\n4\n\n\n\n\n\n\n5'),
                 ),
               ),
             ),
+            Row(
+                children: List.generate(
+              itemTypeList.length,
+              (index) => Container(
+                margin: EdgeInsets.all(5),
+                //color: Colors.redAccent,
+                width: 80,
+                child: RadioListTile(
+                  visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity,
+                  ),
+                  contentPadding: EdgeInsets.all(0),
+                  title: Text(itemTypeList[index]),
+                  value: itemTypeList[index],
+                  groupValue: _itemType,
+                  onChanged: (value) {
+                    setState(() {
+                      _itemType = value!;
+                    });
+                  },
+                ),
+              ),
+            )),
             Container(
               child: AddItemRow(widget.now),
-            ),
-            Container(
-              height: 50,
-              color: Colors.red,
             ),
           ],
         ),

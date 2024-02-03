@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-
-List<String> temp_itemNameList = ['커트', '펌', '염색', '오예오예오예오예오예', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색'];
-List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000];
+import 'item_list.dart';
 
 class AddItemRow extends StatefulWidget {
   AddItemRow(this.now, {super.key});
@@ -37,6 +35,7 @@ class _AddItemRowState extends State<AddItemRow> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
           child: DropdownMenu<String>(
             width: 120,
             initialSelection: temp_itemNameList.first,
@@ -91,8 +90,9 @@ class _AddItemRowState extends State<AddItemRow> {
               ),
             ),
             Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
                 decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Colors.indigo,
                     borderRadius: BorderRadius.circular(5)),
                 child: TextButton(
                     onPressed: () {
@@ -106,7 +106,7 @@ class _AddItemRowState extends State<AddItemRow> {
                     },
                     child: Text(
                       '추가',
-                      style: TextStyle(color: Colors.black87, fontSize: 15),
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     )))
           ],
         )
