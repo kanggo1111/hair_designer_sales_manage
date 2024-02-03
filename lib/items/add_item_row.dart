@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'item_list.dart';
@@ -14,9 +15,8 @@ class AddItem extends StatefulWidget {
 }
 
 class _AddItemState extends State<AddItem> {
-  String itemName = temp_itemNameList.first;
-  int itemPrice = temp_itemPriceList.first;
-  String itemPriceStr = temp_itemNameList.first;
+  String _itemName = temp_itemNameList.first;
+  int _itemPrice = temp_itemPriceList.first;
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _itemType = itemTypeList[0];
@@ -69,10 +69,10 @@ class _AddItemState extends State<AddItem> {
                 initialSelection: temp_itemNameList.first,
                 onSelected: (String? value) {
                   setState(() {
-                    itemName = value!;
-                    itemPrice =
-                    temp_itemPriceList[temp_itemNameList.indexOf(itemName)];
-                    _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(itemPrice));
+                    _itemName = value!;
+                    _itemPrice =
+                    temp_itemPriceList[temp_itemNameList.indexOf(_itemName)];
+                    _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(_itemPrice));
                   });
                 },
                 dropdownMenuEntries:
@@ -111,8 +111,7 @@ class _AddItemState extends State<AddItem> {
                       },
                       keyboardType: TextInputType.number,
                       onSaved: (value) {
-                        itemPrice = int.parse(value!.replaceAll(',', ''));
-                        print(itemPrice);
+                        _itemPrice = int.parse(value!.replaceAll(',', ''));
                       },
                     ),
                   ),
@@ -125,12 +124,25 @@ class _AddItemState extends State<AddItem> {
                     child: TextButton(
                         onPressed: () {
                           if(_tryPriceValidation()){
-                            print(DateFormat('y-MM-dd').format(widget.now) +
-                                ' ' +
-                                itemName +
-                                ' ' +
-                                itemPrice.toString());
+                            // print(DateFormat('y-MM-dd').format(widget.now) +
+                            //     ' ' +
+                            //     _itemType +
+                            //     ' ' +
+                            //     _itemName +
+                            //     ' ' +
+                            //     _itemPrice.toString());
                           }
+
+                          MyDB myDB = MyDB();
+                          // myDB.writeMyDB(DateFormat('y-MM-dd').format(widget.now) +
+                          //     ' ' +
+                          //     _itemType +
+                          //     ' ' +
+                          //     _itemName +
+                          //     ' ' +
+                          //     _itemPrice.toString());
+                          myDB.readMyDB();
+                          //myDB.resetMyDB();
                         },
                         child: Text(
                           '추가',
