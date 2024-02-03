@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/add_item_row.dart';
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:hair_designer_sales_manage/items/my_db.dart';
 
 class ItemOneDay extends StatefulWidget {
   const ItemOneDay(this.now, {super.key});
@@ -31,8 +32,14 @@ class _ItemOneDayState extends State<ItemOneDay> {
 
   @override
   Widget build(BuildContext context) {
-    final mainItemWidth = MediaQuery.of(context).size.width * 0.9;
-    final mainItemHeight = MediaQuery.of(context).size.height * 0.9;
+    final mainItemWidth = MediaQuery
+        .of(context)
+        .size
+        .width * 0.9;
+    final mainItemHeight = MediaQuery
+        .of(context)
+        .size
+        .height * 0.9;
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -55,8 +62,8 @@ class _ItemOneDayState extends State<ItemOneDay> {
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.blue.withOpacity(0.5),
-                  child: Text(
-                      '1\n\n\n\n\n\n2\n\n\n\n\n\n\n3\n\n\n\n\n\n\n4\n\n\n\n\n\n\n5'),
+                  child: Text(myDB.getDataListOfDay(widget.now).toString().replaceAll('},', '},\n'), style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ),
             ),

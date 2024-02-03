@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 const MY_DATABASE_FILE_PATH = 'my_database.txt';
@@ -7,7 +8,7 @@ const MY_DATABASE_FILE_PATH = 'my_database.txt';
 late MyDB myDB;
 List<dynamic> currentData = List.empty(growable: true);
 
-class MyDB{
+class MyDB {
   MyDB();
 
   Future<String> get _localPath async {
@@ -30,8 +31,12 @@ class MyDB{
 
       List readData = jsonDecode(contents);
 
-      currentData.addAll(readData);
-      print('R '+ currentData.toString());
+      print(currentData.length);
+      currentData.forEach((element) {print(element.toString());});
+
+      if(readData.length != currentData.length){  // TODO: fix not to overlap on hot reload
+        currentData.addAll(readData);
+      }
       return currentData;
     } catch (e) {
       // If encountering an error, return 0
@@ -45,7 +50,7 @@ class MyDB{
 
     // Write the file
 
-    print('W1 '+ currentData.toString());
+    //print('W1 ' + currentData.toString());
     //print('W2 '+ newData.toString());
 
     //currentData.add(newData);
@@ -60,7 +65,27 @@ class MyDB{
   Future<File> resetMyDB() async {
     final file = await _localFile;
 
+    file.writeAsString('');
+    String testDataSet =
+    '[{"date": "2024-02-03", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "커트", "itemPrice": 20000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "커트", "itemPrice": 20000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}]';
+    return file.writeAsString(testDataSet);
+
     // Write the file
-    return file.writeAsString('[]');
+    // return file.writeAsString('[]');
+  }
+
+  List<dynamic> getDataListOfDay(DateTime now) {
+    List<dynamic> selectedList = [];
+
+    currentData.forEach((element) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now)) {
+        selectedList.add(element);
+      }
+    });
+
+    print(selectedList.length);
+    selectedList.forEach((element) {print(selectedList.toString());});
+
+    return selectedList;
   }
 }
