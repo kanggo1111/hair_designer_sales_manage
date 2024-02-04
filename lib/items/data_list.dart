@@ -24,6 +24,7 @@ class _DataListState extends State<DataList> {
           itemCount: listOfDay.length,
           itemBuilder: (context, index) {
             return Card(
+              margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
               child: Row(
                 children: [
                   Container(
@@ -31,8 +32,6 @@ class _DataListState extends State<DataList> {
                     child: Text(index.toString()),
                     margin: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  Text(listOfDay[index]['id'] + ' ',
-                      style: TextStyle(fontSize: 10)),
                   Text(listOfDay[index]['itemType'].padLeft(7) + ' ',
                       style: TextStyle(fontSize: 10)),
                   Text(listOfDay[index]['itemName'].padLeft(7) + ' ',

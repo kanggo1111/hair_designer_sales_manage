@@ -146,6 +146,10 @@ class _AddDataState extends State<AddData> {
             )
           ],
         ),
+        if (MediaQuery.of(context).viewInsets.bottom > 0)
+          SizedBox(
+            height: MediaQuery.of(context).viewInsets.bottom,
+          )
       ],
     );
   }

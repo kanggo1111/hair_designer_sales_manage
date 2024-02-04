@@ -54,15 +54,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
             ),
           ),
           DataList(widget.now, refreshDataList),
-          Column(
-            children: [
-              AddData(widget.now, refreshDataList),
-              if (MediaQuery.of(context).viewInsets.bottom > 0)
-                SizedBox(
-                  height: MediaQuery.of(context).viewInsets.bottom,
-                )
-            ],
-          ),
+          AddData(widget.now, refreshDataList),
         ],
       ),
     );
