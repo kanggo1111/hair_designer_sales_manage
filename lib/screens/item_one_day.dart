@@ -30,6 +30,11 @@ class _ItemOneDayState extends State<ItemOneDay> {
     return true;
   }
 
+  void refreshDataList(){
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final listViewHeight = MediaQuery.of(context).size.height * 0.6;
@@ -48,10 +53,10 @@ class _ItemOneDayState extends State<ItemOneDay> {
                   color: Colors.black87),
             ),
           ),
-          DataList(widget.now),
+          DataList(widget.now, refreshDataList),
           Column(
             children: [
-              AddData(widget.now),
+              AddData(widget.now, refreshDataList),
               if (MediaQuery.of(context).viewInsets.bottom > 0)
                 SizedBox(
                   height: MediaQuery.of(context).viewInsets.bottom,

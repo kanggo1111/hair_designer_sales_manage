@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 
 class DataList extends StatefulWidget {
-  const DataList(this.now, {super.key});
+  const DataList(this.now, this.refreshDataList, {super.key});
 
   final DateTime now;
+  final Function refreshDataList;
 
   @override
   State<DataList> createState() => _DataListState();
@@ -30,16 +31,8 @@ class _DataListState extends State<DataList> {
                     child: Text(index.toString()),
                     margin: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  // Text(
-                  //   listOfDay[index]
-                  //       .toString()
-                  //       .replaceAll('itemType', '\nitemType'),
-                  //   style: TextStyle(fontSize: 10),
-                  // ),
-
-                  // Text(listOfDay[index]['id'] + ' ',
-                  //     style: TextStyle(fontSize: 10)),
-
+                  Text(listOfDay[index]['id'] + ' ',
+                      style: TextStyle(fontSize: 10)),
                   Text(listOfDay[index]['itemType'].padLeft(7) + ' ',
                       style: TextStyle(fontSize: 10)),
                   Text(listOfDay[index]['itemName'].padLeft(7) + ' ',
@@ -50,6 +43,7 @@ class _DataListState extends State<DataList> {
                   IconButton(
                       onPressed: () {
                         myDB.deleteMyDB(listOfDay[index]);
+                        widget.refreshDataList();
                       },
                       icon: Icon(Icons.delete))
                 ],

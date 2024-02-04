@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
@@ -6,9 +8,10 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'item_list.dart';
 
 class AddData extends StatefulWidget {
-  AddData(this.now, {super.key});
+  AddData(this.now, this.refreshDataList, {super.key});
 
   final DateTime now;
+  final Function refreshDataList;
 
   @override
   State<AddData> createState() => _AddDataState();
@@ -131,6 +134,8 @@ class _AddDataState extends State<AddData> {
 
                             await myDB.writeMyDB(data);
                             //myDB.resetMyDB();
+
+                            widget.refreshDataList();
                           }
                         },
                         child: Text(

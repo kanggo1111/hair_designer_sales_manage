@@ -1,7 +1,7 @@
-data list of a day #3
+refresh data list on adding/deleting data
 
 Details:
-add data / delete data
+refresh data list on adding/deleting data
 
 TODO:
-add dayList listener
+modify data list ui
