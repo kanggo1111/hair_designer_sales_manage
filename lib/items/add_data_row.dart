@@ -5,16 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'item_list.dart';
 
-class AddItem extends StatefulWidget {
-  AddItem(this.now, {super.key});
+class AddData extends StatefulWidget {
+  AddData(this.now, {super.key});
 
   final DateTime now;
 
   @override
-  State<AddItem> createState() => _AddItemState();
+  State<AddData> createState() => _AddDataState();
 }
 
-class _AddItemState extends State<AddItem> {
+class _AddDataState extends State<AddData> {
   String _itemName = temp_itemNameList.first;
   int _itemPrice = temp_itemPriceList.first;
   final _controller = TextEditingController();
@@ -128,8 +128,6 @@ class _AddItemState extends State<AddItem> {
                             data['itemType'] = _itemType;
                             data['itemName'] = _itemName;
                             data['itemPrice'] = _itemPrice;
-
-                            print(data.toString());
 
                             await myDB.writeMyDB(data);
                             //myDB.resetMyDB();
