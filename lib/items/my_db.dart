@@ -117,4 +117,34 @@ class MyDB {
 
     return selectedList;
   }
+
+  int getDataListCountOfDay(DateTime now) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now)) {
+        sum++;
+      }
+    });
+
+    // print(selectedList.length);
+    // selectedList.forEach((element) {print(selectedList.toString());});
+
+    return sum;
+  }
+
+  int getSumPriceOfDay(DateTime now) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now)) {
+        sum += element['itemPrice'] as int;
+      }
+    });
+
+    // print(selectedList.length);
+    // selectedList.forEach((element) {print(selectedList.toString());});
+
+    return sum;
+  }
 }

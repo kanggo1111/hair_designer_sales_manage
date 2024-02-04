@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:hair_designer_sales_manage/screens/item_one_day.dart';
 import 'package:intl/intl.dart';
 
@@ -13,6 +14,7 @@ Map<String, int> weekday = {
 };
 
 const double cellBorderWidth = 0.1;
+Function refreshCalendar = (){};
 
 class MyCalendar extends StatefulWidget {
   MyCalendar({super.key});
@@ -33,6 +35,7 @@ class _MyCalendarState extends State<MyCalendar> {
     super.initState();
     now = new DateTime.now();
     getCurrentMonth();
+    refreshCalendar = _refreshCalendar;
   }
 
   void getCurrentMonth() {
@@ -70,9 +73,15 @@ class _MyCalendarState extends State<MyCalendar> {
             insetAnimationCurve: Curves.easeIn,
             insetAnimationDuration: Duration(milliseconds: 100),
             backgroundColor: Colors.white,
-            child: ItemOneDay(now),
+            child: ItemOneDay(now, refreshCalendar),
           );
         });
+  }
+
+  void _refreshCalendar() {
+    print('ddd');
+
+    setState(() {});
   }
 
   Widget build(BuildContext context) {
@@ -140,7 +149,7 @@ class _MyCalendarState extends State<MyCalendar> {
                           onPressed: () {
                             // widget._navigatorKey.currentState?.pushNamed('/B');
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ItemOneDay(now)));
+                                builder: (context) => ItemOneDay(now, refreshCalendar)));
                             //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(
@@ -240,7 +249,7 @@ class _CalendarCellState extends State<CalendarCell> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ItemOneDay(DateTime(
-                widget.now.year, widget.now.month, widget.dayOfCell))));
+                widget.now.year, widget.now.month, widget.dayOfCell), refreshCalendar)));
       },
       child: Stack(
           children: getCellContent(widget.dayOfCell, widget.now.year,
@@ -290,10 +299,13 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
   textList.add(const SizedBox(
     height: 10,
   ));
+
+  int sumPriceOfDay = myDB.getSumPriceOfDay(DateTime(year, month, dayOfCell));
+
   textList.add(Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      Text('3,100,200', style: TextStyle(color: incomeTextColor, fontSize: 11)),
+      Text(sumPriceOfDay == 0 ? '' : NumberFormat('###,###,###,###').format(sumPriceOfDay), style: TextStyle(color: incomeTextColor, fontSize: 11)),
     ],
   ));
 
