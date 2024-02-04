@@ -139,7 +139,8 @@ class _MyCalendarState extends State<MyCalendar> {
                           padding: EdgeInsets.all(10),
                           onPressed: () {
                             // widget._navigatorKey.currentState?.pushNamed('/B');
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemOneDay(now)));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ItemOneDay(now)));
                             //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(
@@ -235,9 +236,16 @@ class CalendarCell extends StatefulWidget {
 class _CalendarCellState extends State<CalendarCell> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-        children: getCellContent(
-            widget.dayOfCell, widget.now.year, widget.now.month, widget.color));
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ItemOneDay(DateTime(
+                widget.now.year, widget.now.month, widget.dayOfCell))));
+      },
+      child: Stack(
+          children: getCellContent(widget.dayOfCell, widget.now.year,
+              widget.now.month, widget.color)),
+    );
   }
 }
 
@@ -245,9 +253,15 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
   int lastDayOfCurrentMonth = DateTime(year, month + 1, 0).day;
   List<Widget> textList = [];
   List<Widget> returnList = [];
-  Container shadowContainer = Container(color: Colors.grey.withOpacity(0.15));
   bool isNeedShadow = true;
   Color incomeTextColor = Colors.blue[300]!;
+
+  Container notThisMonthShadowContainer =
+      Container(color: Colors.grey.withOpacity(0.15));
+  Container todayShadowContainer = Container(
+    decoration: BoxDecoration(
+        border: Border.all(color: Colors.indigo, width: cellBorderWidth*15)),
+  );
 
   if (dayOfCell > 0 && dayOfCell <= lastDayOfCurrentMonth) {
     textList.add(Text(dayOfCell.toString(), style: TextStyle(color: color)));
@@ -299,6 +313,8 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
             )),
           ],
         )),
-    if (isNeedShadow) shadowContainer
+    if (isNeedShadow) notThisMonthShadowContainer,
+    if (dayOfCell == int.parse(DateFormat('dd').format(DateTime.now())))
+      todayShadowContainer,
   ];
 }
