@@ -31,8 +31,8 @@ class MyDB {
 
       List readData = jsonDecode(contents);
 
-      print(currentData.length);
-      currentData.forEach((element) {print(element.toString());});
+      print('R1 '+currentData.length.toString());
+      currentData.forEach((element) {print('R2 '+element.toString());});
 
       if(readData.length != currentData.length){  // TODO: fix not to overlap on hot reload
         currentData.addAll(readData);
@@ -53,7 +53,7 @@ class MyDB {
     //print('W1 ' + currentData.toString());
     //print('W2 '+ newData.toString());
 
-    //currentData.add(newData);
+    currentData.add(newData);
     //print('W3 '+ currentData.toString());
 
     //String modifiedDataStr = jsonEncode(currentData);
@@ -83,8 +83,8 @@ class MyDB {
       }
     });
 
-    print(selectedList.length);
-    selectedList.forEach((element) {print(selectedList.toString());});
+    // print(selectedList.length);
+    // selectedList.forEach((element) {print(selectedList.toString());});
 
     return selectedList;
   }

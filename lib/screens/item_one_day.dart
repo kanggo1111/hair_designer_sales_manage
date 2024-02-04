@@ -32,39 +32,62 @@ class _ItemOneDayState extends State<ItemOneDay> {
 
   @override
   Widget build(BuildContext context) {
-    final mainItemWidth = MediaQuery.of(context).size.width * 0.9;
-    final mainItemHeight = MediaQuery.of(context).size.height * 0.9;
-
+    final listViewHeight = MediaQuery.of(context).size.height * 0.6;
     List<dynamic> listOfDay = myDB.getDataListOfDay(widget.now);
 
+    print(MediaQuery.of(context).viewInsets.bottom);
+
     return Container(
-      margin: EdgeInsets.all(10),
-      width: mainItemWidth,
-      // height: mainItemHeight,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Text(
               DateFormat('y. MM. dd').format(widget.now),
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              height: mainItemHeight * 0.6,
-              child: SingleChildScrollView(
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.blue.withOpacity(0.5),
-                  child: Text(listOfDay.toString().replaceAll('},', '},\n'), style: TextStyle(fontSize: 12)),
-                ),
+          ),
+          Expanded(
+            child: Container(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: listOfDay.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Row(
+                      children: [
+                        Container(
+                          color: Colors.yellowAccent,
+                          child: Text(index.toString()),
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                        ),
+                        Text(
+                          listOfDay[index]
+                              .toString()
+                              .replaceAll('itemType', '\nitemType'),
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
-            AddItem(widget.now),
-          ],
-        ),
+          ),
+          Column(
+            children: [
+              AddItem(widget.now),
+              if (MediaQuery.of(context).viewInsets.bottom > 0)
+                SizedBox(
+                  height: MediaQuery.of(context).viewInsets.bottom,
+                )
+            ],
+          ),
+        ],
       ),
     );
   }

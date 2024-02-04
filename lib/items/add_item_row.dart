@@ -129,8 +129,9 @@ class _AddItemState extends State<AddItem> {
                             data['itemName'] = _itemName;
                             data['itemPrice'] = _itemPrice;
 
+                            print(data.toString());
 
-                            //await myDB.writeMyDB(data);
+                            await myDB.writeMyDB(data);
                             //myDB.resetMyDB();
                           }
                         },

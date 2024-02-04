@@ -8,6 +8,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height/12,
         title: Text('Main Screen'),
