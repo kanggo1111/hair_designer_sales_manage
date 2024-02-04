@@ -32,14 +32,10 @@ class _ItemOneDayState extends State<ItemOneDay> {
 
   @override
   Widget build(BuildContext context) {
-    final mainItemWidth = MediaQuery
-        .of(context)
-        .size
-        .width * 0.9;
-    final mainItemHeight = MediaQuery
-        .of(context)
-        .size
-        .height * 0.9;
+    final mainItemWidth = MediaQuery.of(context).size.width * 0.9;
+    final mainItemHeight = MediaQuery.of(context).size.height * 0.9;
+
+    List<dynamic> listOfDay = myDB.getDataListOfDay(widget.now);
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -62,8 +58,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.blue.withOpacity(0.5),
-                  child: Text(myDB.getDataListOfDay(widget.now).toString().replaceAll('},', '},\n'), style: TextStyle(fontSize: 12),
-                  ),
+                  child: Text(listOfDay.toString().replaceAll('},', '},\n'), style: TextStyle(fontSize: 12)),
                 ),
               ),
             ),
