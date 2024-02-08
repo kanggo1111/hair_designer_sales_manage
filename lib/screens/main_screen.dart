@@ -7,18 +7,21 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset : false,
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height/12,
-        title: Text('Main Screen'),
-        elevation: 0,
-      ),
-      body: SubScreen()
+    return GestureDetector(
+      onTap: (){FocusScope.of(context).unfocus();},
+      child: Scaffold(
+        resizeToAvoidBottomInset : false,
+        appBar: AppBar(
+          toolbarHeight: MediaQuery.of(context).size.height/12,
+          title: Text('Main Screen'),
+          elevation: 0,
+        ),
+        body: SubScreen()
 
-      // Center(
-      //   child: MyCalendar(),
-      // ),
+        // Center(
+        //   child: MyCalendar(),
+        // ),
+      ),
     );
   }
 }
