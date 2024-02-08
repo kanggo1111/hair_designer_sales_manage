@@ -22,9 +22,11 @@ class _DataListState extends State<DataList> {
     return Expanded(
       child: Container(
         child: ListView.builder(
+          reverse: true,
           shrinkWrap: true,
           itemCount: listOfDay.length,
           itemBuilder: (context, index) {
+            int reverseIndex = listOfDay.length - (index+1);
             return Card(
               color: Colors.indigo[50],
               margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
@@ -38,30 +40,30 @@ class _DataListState extends State<DataList> {
                         width: screenWidth*0.05,
                         alignment: AlignmentDirectional.centerEnd,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text((index+1).toString(), style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text((reverseIndex+1).toString(), style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                       const SizedBox(width: 20,),
                       Container(
                         width: screenWidth*0.11,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text(listOfDay[index]['itemType'], style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text(listOfDay[reverseIndex]['itemType'], style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                       Container(
                         width: screenWidth*0.3,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text(listOfDay[index]['itemName'], style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text(listOfDay[reverseIndex]['itemName'], style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                       Container(
                         width: screenWidth*0.17,
                         alignment: AlignmentDirectional.centerEnd,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text(NumberFormat('###,###,###,###').format(listOfDay[index]['itemPrice']), style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text(NumberFormat('###,###,###,###').format(listOfDay[reverseIndex]['itemPrice']), style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                     ],
                   ),
                   IconButton(
                       onPressed: () {
-                        myDB.deleteMyDB(listOfDay[index]);
+                        myDB.deleteMyDB(listOfDay[reverseIndex]);
                         widget.refreshDataList();
                       },
                       icon: Icon(Icons.delete))
