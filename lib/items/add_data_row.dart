@@ -231,8 +231,13 @@ class ItemButton extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         _globalSetState(itemType, itemName);
-        if(_isAddedBuSubmitButton == false){
-          _globalTryValidation();
+        if(_priceTextFieldFocusNode.hasFocus == false){
+          _controller.value = TextEditingValue(text: '');
+        }
+        else {
+          if(_isAddedBuSubmitButton == false){
+            _globalTryValidation();
+          }
         }
         _isAddedBuSubmitButton = false;
         _controller.value = TextEditingValue(text: '');
