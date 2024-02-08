@@ -90,7 +90,7 @@ class _AddDataState extends State<AddData> {
                             locale: 'ko-KR', decimalDigits: 0, symbol: '')
                       ],
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty || _dataTypeString1.length == 0 || _dataTypeString2.length == 0) {
                           return '';
                         } else {
                           return null;
@@ -126,7 +126,8 @@ class _AddDataState extends State<AddData> {
                       onFieldSubmitted: (value) {
                         _tryPriceValidation();
                       },
-                      onEditingComplete: (){},
+                      onEditingComplete: (){
+                      },
                     ),
                   ),
                 ),
@@ -142,10 +143,7 @@ class _AddDataState extends State<AddData> {
           itemTypeList1.length,
           (index) => GestureDetector(
             onTap: () {
-              if (_controller.value.text.length > 0 && _dataTypeString1.length > 0 && _dataTypeString2.length > 0) {
-                // 입력한 상태에서 추가 입력하려는 경우
-                _tryPriceValidation();
-              }
+              _tryPriceValidation();
 
               setState(() {
                 _dataTypeString1 = itemTypeList1[index];
@@ -168,10 +166,8 @@ class _AddDataState extends State<AddData> {
               itemTypeList2.length,
           (index) => GestureDetector(
             onTap: () {
-              if (_controller.value.text.length > 0 && _dataTypeString1.length > 0 && _dataTypeString2.length > 0) {
-                // 입력한 상태에서 추가 입력하려는 경우
-                _tryPriceValidation();
-              }
+              _tryPriceValidation();
+
               setState(() {
                 _dataTypeString2 = itemTypeList2[index];
               });
