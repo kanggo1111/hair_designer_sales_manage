@@ -79,8 +79,6 @@ class _MyCalendarState extends State<MyCalendar> {
   }
 
   void _refreshCalendar() {
-    print('ddd');
-
     setState(() {});
   }
 
