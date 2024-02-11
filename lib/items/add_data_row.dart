@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'item_list.dart';
 
 String _itemType = '';
 late Function _globalSetState;
@@ -23,7 +22,7 @@ class AddData extends StatefulWidget {
 }
 
 class _AddDataState extends State<AddData> {
-  int _itemPrice = temp_itemPriceList.first;
+  int _itemPrice = 0;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -249,92 +248,3 @@ class ItemButton extends StatelessWidget {
     );
   }
 }
-
-/*
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-              child: DropdownMenu<String>(
-                width: 120,
-                initialSelection: temp_itemNameList.first,
-                onSelected: (String? value) {
-                  setState(() {
-                    _itemName = value!;
-                    _itemPrice =
-                    temp_itemPriceList[temp_itemNameList.indexOf(_itemName)];
-                    _controller.value = TextEditingValue(text: NumberFormat('###,###,###,###').format(_itemPrice));
-                  });
-                },
-                dropdownMenuEntries:
-                    temp_itemNameList.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
-                }).toList(),
-              ),
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  alignment: AlignmentDirectional.centerEnd,
-                  width: 100,
-                  child: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _controller,
-                      textAlign: TextAlign.end,
-                      decoration: InputDecoration(errorStyle: TextStyle(height: 0), hintText: '0'),
-                      inputFormatters: [
-                        FilteringTextInputFormatter(RegExp('[0-9,]'), allow: true),
-                        CurrencyTextInputFormatter(
-                            locale: 'ko-KR', decimalDigits: 0, symbol: '')
-                      ],
-                      validator: (value){
-                        if (value!.isEmpty) {
-                          return '';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onTap: () {
-                        _controller.value = TextEditingValue(text: '');
-                      },
-                      keyboardType: TextInputType.number,
-                      onSaved: (value) {
-                        _itemPrice = int.parse(value!.replaceAll(',', ''));
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                    decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: TextButton(
-                        onPressed: () async{
-                          if(_tryPriceValidation()){
-                            Map data = {};
-                            data['date'] = DateFormat('y-MM-dd').format(widget.now);
-                            data['itemType'] = _itemType;
-                            data['itemName'] = _itemName;
-                            data['itemPrice'] = _itemPrice;
-
-                            await myDB.writeMyDB(data);
-                            //myDB.resetMyDB();
-
-                            widget.refreshDataList();
-                          }
-                        },
-                        child: Text(
-                          '추가',
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        )))
-              ],
-            )
-          ],
-        ),
-
- */

@@ -1,131 +1,51 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [StreamBuilder].
+/// Flutter code sample for [DropdownMenu].
 
-void main() => runApp(const StreamBuilderExampleApp());
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
-class StreamBuilderExampleApp extends StatelessWidget {
-  const StreamBuilderExampleApp({super.key});
+void main() => runApp(const DropdownMenuApp());
+
+class DropdownMenuApp extends StatelessWidget {
+  const DropdownMenuApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: StreamBuilderExample(),
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: Scaffold(
+        appBar: AppBar(title: const Text('DropdownMenu Sample')),
+        body: const Center(
+          child: DropdownMenuExample(),
+        ),
+      ),
     );
   }
 }
 
-class StreamBuilderExample extends StatefulWidget {
-  const StreamBuilderExample({super.key});
+class DropdownMenuExample extends StatefulWidget {
+  const DropdownMenuExample({super.key});
 
   @override
-  State<StreamBuilderExample> createState() => _StreamBuilderExampleState();
+  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
 }
 
-class _StreamBuilderExampleState extends State<StreamBuilderExample> {
-  final Stream<int> _bids = (() {
-    late final StreamController<int> controller;
-    controller = StreamController<int>(
-      onListen: () async {
-        await Future<void>.delayed(const Duration(seconds: 1));
-        controller.add(1);
-        await Future<void>.delayed(const Duration(seconds: 1));
-        await controller.close();
-      },
-    );
-    return controller.stream;
-  })();
+class _DropdownMenuExampleState extends State<DropdownMenuExample> {
+  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      style: Theme.of(context).textTheme.displayMedium!,
-      textAlign: TextAlign.center,
-      child: Container(
-        alignment: FractionalOffset.center,
-        color: Colors.white,
-        child: StreamBuilder<int>(
-          stream: _bids,
-          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-            List<Widget> children;
-            if (snapshot.hasError) {
-              children = <Widget>[
-                const Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                  size: 60,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text('Error: ${snapshot.error}'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text('Stack trace: ${snapshot.stackTrace}'),
-                ),
-              ];
-            } else {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  children = const <Widget>[
-                    Icon(
-                      Icons.info,
-                      color: Colors.blue,
-                      size: 60,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Select a lot'),
-                    ),
-                  ];
-                case ConnectionState.waiting:
-                  children = const <Widget>[
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: CircularProgressIndicator(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Awaiting bids...'),
-                    ),
-                  ];
-                case ConnectionState.active:
-                  children = <Widget>[
-                    const Icon(
-                      Icons.check_circle_outline,
-                      color: Colors.green,
-                      size: 60,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text('\$${snapshot.data}'),
-                    ),
-                  ];
-                case ConnectionState.done:
-                  children = <Widget>[
-                    const Icon(
-                      Icons.info,
-                      color: Colors.blue,
-                      size: 60,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text('\$${snapshot.data} (closed)'),
-                    ),
-                  ];
-              }
-            }
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
-            );
-          },
-        ),
-      ),
+    return DropdownMenu<String>(
+      initialSelection: list.first,
+      onSelected: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+        return DropdownMenuEntry<String>(value: value, label: value);
+      }).toList(),
     );
   }
 }
