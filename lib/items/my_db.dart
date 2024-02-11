@@ -127,9 +127,6 @@ class MyDB {
       }
     });
 
-    // print(selectedList.length);
-    // selectedList.forEach((element) {print(selectedList.toString());});
-
     return sum;
   }
 
@@ -142,8 +139,18 @@ class MyDB {
       }
     });
 
-    // print(selectedList.length);
-    // selectedList.forEach((element) {print(selectedList.toString());});
+    return sum;
+  }
+
+  int getDataTypeCountOfDay(DateTime now, String type) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now)
+      && element['itemType'] == type) {
+        sum++;
+      }
+    });
 
     return sum;
   }

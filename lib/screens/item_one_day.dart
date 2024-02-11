@@ -59,14 +59,41 @@ class _ItemOneDayState extends State<ItemOneDay> {
             margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(border: Border.symmetric(horizontal: BorderSide(color: Colors.indigo, width: 1.5))),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const SizedBox(width: 15,),
                 Container(
                   margin: EdgeInsets.all(5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(margin: EdgeInsets.all(5), child: Text('객수', style: TextStyle(fontSize: 16),)),
+                      Container(margin: EdgeInsets.all(5), child: Text('지명', style: TextStyle(fontSize: 16),)),
+                      Container(
+                          margin: EdgeInsets.all(5),
+                          child: Text(NumberFormat('###,###,###,###')
+                              .format(myDB.getDataTypeCountOfDay(widget.now, '지명')), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(margin: EdgeInsets.all(5), child: Text('신규', style: TextStyle(fontSize: 16),)),
+                      Container(
+                          margin: EdgeInsets.all(5),
+                          child: Text(NumberFormat('###,###,###,###')
+                              .format(myDB.getDataTypeCountOfDay(widget.now, '신규')), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(margin: EdgeInsets.all(5), child: Text('총객수', style: TextStyle(fontSize: 16),)),
                       Container(
                           margin: EdgeInsets.all(5),
                           child: Text(NumberFormat('###,###,###,###')
@@ -74,7 +101,6 @@ class _ItemOneDayState extends State<ItemOneDay> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 80,),
                 Container(
                   margin: EdgeInsets.all(5),
                   child: Column(
@@ -88,6 +114,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                     ],
                   ),
                 ),
+                const SizedBox(width: 15,),
               ],
             ),
           ),

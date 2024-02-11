@@ -14,7 +14,7 @@ Map<String, int> weekday = {
 };
 
 const double cellBorderWidth = 0.1;
-Function refreshCalendar = (){};
+Function refreshCalendar = () {};
 
 class MyCalendar extends StatefulWidget {
   MyCalendar({super.key});
@@ -147,7 +147,8 @@ class _MyCalendarState extends State<MyCalendar> {
                           onPressed: () {
                             // widget._navigatorKey.currentState?.pushNamed('/B');
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ItemOneDay(now, refreshCalendar)));
+                                builder: (context) =>
+                                    ItemOneDay(now, refreshCalendar)));
                             //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(
@@ -246,8 +247,9 @@ class _CalendarCellState extends State<CalendarCell> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ItemOneDay(DateTime(
-                widget.now.year, widget.now.month, widget.dayOfCell), refreshCalendar)));
+            builder: (context) => ItemOneDay(
+                DateTime(widget.now.year, widget.now.month, widget.dayOfCell),
+                refreshCalendar)));
       },
       child: Stack(
           children: getCellContent(widget.dayOfCell, widget.now.year,
@@ -267,7 +269,7 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
       Container(color: Colors.grey.withOpacity(0.15));
   Container todayShadowContainer = Container(
     decoration: BoxDecoration(
-        border: Border.all(color: Colors.indigo, width: cellBorderWidth*15)),
+        border: Border.all(color: Colors.indigo, width: cellBorderWidth * 15)),
   );
 
   if (dayOfCell > 0 && dayOfCell <= lastDayOfCurrentMonth) {
@@ -299,11 +301,39 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
   ));
 
   int sumPriceOfDay = myDB.getSumPriceOfDay(DateTime(year, month, dayOfCell));
-
   textList.add(Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      Text(sumPriceOfDay == 0 ? '' : NumberFormat('###,###,###,###').format(sumPriceOfDay), style: TextStyle(color: incomeTextColor, fontSize: 11)),
+      Text(
+          sumPriceOfDay == 0
+              ? ''
+              : NumberFormat('###,###,###,###').format(sumPriceOfDay),
+          style: TextStyle(color: incomeTextColor, fontSize: 11)),
+    ],
+  ));
+
+  textList.add(const SizedBox(
+    height: 10,
+  ));
+  textList.add(Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Container(
+        padding: EdgeInsets.all(2),
+          child: Text(
+        myDB
+            .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '지명')
+            .toString(),
+        style: TextStyle(fontSize: 10, color: Colors.brown[400]),
+      )),
+      Container(
+          padding: EdgeInsets.all(2),
+          child: Text(
+        myDB
+            .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '신규')
+            .toString(),
+        style: TextStyle(fontSize: 10, color: Colors.green),
+      )),
     ],
   ));
 

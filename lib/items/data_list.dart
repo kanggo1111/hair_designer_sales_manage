@@ -19,6 +19,8 @@ class _DataListState extends State<DataList> {
     List<dynamic> listOfDay = myDB.getDataListOfDay(widget.now);
     double screenWidth = MediaQuery.of(context).size.width;
 
+    // listOfDay.sort()
+
     return Expanded(
       child: Container(
         child: ListView.builder(
