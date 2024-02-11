@@ -6,7 +6,6 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'item_list.dart';
 
 String _itemType = '';
-String _itemName = '';
 late Function _globalSetState;
 late Function _globalTryValidation;
 late TextEditingController _controller;
@@ -35,7 +34,7 @@ class _AddDataState extends State<AddData> {
     _priceTextFieldFocusNode = FocusNode();
     _globalSetState = setItem;
     _globalTryValidation = _tryPriceValidation;
-    setItem('', '');
+    setItem('');
   }
 
   @override
@@ -45,10 +44,9 @@ class _AddDataState extends State<AddData> {
     _priceTextFieldFocusNode.dispose();
   }
 
-  void setItem(String itemType, String itemName){
+  void setItem(String itemType){
     setState(() {
       _itemType = itemType;
-      _itemName = itemName;
     });
   }
 
@@ -80,10 +78,9 @@ class _AddDataState extends State<AddData> {
                   width: 20,
                 ),
                 addDataTypeBox(_itemType),
-                addDataTypeBox(_itemName),
                 IconButton(
                   onPressed: () {
-                    setItem('', '');
+                    setItem('');
                   },
                   icon: Icon(
                     Icons.highlight_remove_sharp,
@@ -120,8 +117,7 @@ class _AddDataState extends State<AddData> {
                       ],
                       validator: (value) {
                         if (value!.isEmpty ||
-                            _itemType.length == 0 ||
-                            _itemName.length == 0) {
+                            _itemType.length == 0) {
                           return '';
                         } else {
                           return null;
@@ -146,7 +142,6 @@ class _AddDataState extends State<AddData> {
                         Map data = {};
                         data['date'] = DateFormat('y-MM-dd').format(widget.now);
                         data['itemType'] = _itemType;
-                        data['itemName'] = _itemName;
                         data['itemPrice'] = _itemPrice;
 
                         await myDB.writeMyDB(data);
@@ -171,13 +166,10 @@ class _AddDataState extends State<AddData> {
         ),
         Row(
           children: [
-            ItemButton('지명', '커트', Colors.black87, Colors.black87),
-            ItemButton('지명', '화학', Colors.black87, Colors.black87),
-            ItemButton('신규', '커트', Colors.black87, Colors.black87),
-            ItemButton('신규', '화학', Colors.black87, Colors.black87),
-            ItemButton('대체', '커트', Colors.black87, Colors.black87),
-            ItemButton('대체', '화학', Colors.black87, Colors.black87),
-            ItemButton('점판', '점판', Colors.black87, Colors.black87),
+            ItemButton('지명', Colors.black87),
+            ItemButton('신규', Colors.black87),
+            ItemButton('대체', Colors.black87),
+            ItemButton('점판', Colors.black87),
           ],
         ),
         SizedBox(
@@ -218,19 +210,17 @@ class _addDataTypeBoxState extends State<addDataTypeBox> {
 
 class ItemButton extends StatelessWidget {
   const ItemButton(
-      this.itemType, this.itemName, this.itemTypeColor, this.itemNameColor,
+      this.itemType, this.itemTypeColor,
       {super.key});
 
   final String itemType;
-  final String itemName;
   final Color itemTypeColor;
-  final Color itemNameColor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        _globalSetState(itemType, itemName);
+        _globalSetState(itemType);
         if(_priceTextFieldFocusNode.hasFocus == false){
           _controller.value = TextEditingValue(text: '');
         }
@@ -249,25 +239,11 @@ class ItemButton extends StatelessWidget {
             border: Border.all(color: Colors.black87)),
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Container(
-              child: Text(
-                itemType,
-                style: TextStyle(
-                  color: itemTypeColor,
-                ),
-              ),
-            ),
-            Container(
-              child: Text(
-                itemName,
-                style: TextStyle(
-                  color: itemNameColor,
-                ),
-              ),
-            ),
-          ],
+        child: Text(
+          itemType,
+          style: TextStyle(
+            color: itemTypeColor,
+          ),
         ),
       ),
     );

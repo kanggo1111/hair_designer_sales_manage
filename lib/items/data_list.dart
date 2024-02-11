@@ -49,11 +49,6 @@ class _DataListState extends State<DataList> {
                         child: Text(listOfDay[reverseIndex]['itemType'], style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                       Container(
-                        width: screenWidth*0.3,
-                        margin: EdgeInsets.only(left: 10),
-                        child: Text(listOfDay[reverseIndex]['itemName'], style: TextStyle(fontSize: 15), maxLines: 1),
-                      ),
-                      Container(
                         width: screenWidth*0.17,
                         alignment: AlignmentDirectional.centerEnd,
                         margin: EdgeInsets.only(left: 10),
