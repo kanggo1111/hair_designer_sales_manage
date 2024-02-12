@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:hair_designer_sales_manage/screens/item_one_day.dart';
@@ -261,7 +262,7 @@ class _CalendarCellState extends State<CalendarCell> {
 List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
   int lastDayOfCurrentMonth = DateTime(year, month + 1, 0).day;
   List<Widget> textList = [];
-  List<Widget> returnList = [];
+
   bool isNeedShadow = true;
   Color incomeTextColor = Colors.blue[300]!;
 
@@ -272,85 +273,93 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
         border: Border.all(color: Colors.indigo, width: cellBorderWidth * 15)),
   );
 
+  String textDate = '';
+  String textSumPrice = '';
+  String textTypeCnt1 = '';
+  String textTypeCnt2 = '';
+
   if (dayOfCell > 0 && dayOfCell <= lastDayOfCurrentMonth) {
-    textList.add(Text(dayOfCell.toString(), style: TextStyle(color: color)));
+    textDate = dayOfCell.toString();
     isNeedShadow = false;
   } else if (dayOfCell <= 0) {
     int lastDayOfPrevMonth = DateTime(year, month, 0).day;
     int prevMonth = month != 1 ? month - 1 : 12;
-    textList.add(Text(
-        prevMonth.toString() +
-            '. ' +
-            (dayOfCell + lastDayOfPrevMonth).toString(),
-        style: TextStyle(color: color.withOpacity(0.5))));
-    incomeTextColor = incomeTextColor.withOpacity(0.5);
+    textDate = prevMonth.toString() +
+        '. ' +
+        (dayOfCell + lastDayOfPrevMonth).toString();
   } else if (dayOfCell > lastDayOfCurrentMonth) {
     int nextMonth = month != 12 ? month + 1 : 1;
-    textList.add(Text(
-        nextMonth.toString() +
-            '. ' +
-            (dayOfCell - lastDayOfCurrentMonth).toString(),
-        style: TextStyle(color: color.withOpacity(0.5))));
-    incomeTextColor = incomeTextColor.withOpacity(0.5);
+    textDate = nextMonth.toString() +
+        '. ' +
+        (dayOfCell - lastDayOfCurrentMonth).toString();
   } else {
-    textList.add(const Text(' '));
+    textDate = ' ';
   }
 
-  textList.add(const SizedBox(
-    height: 10,
-  ));
-
   int sumPriceOfDay = myDB.getSumPriceOfDay(DateTime(year, month, dayOfCell));
-  textList.add(Row(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Text(
-          sumPriceOfDay == 0
-              ? ''
-              : NumberFormat('###,###,###,###').format(sumPriceOfDay),
-          style: TextStyle(color: incomeTextColor, fontSize: 11)),
-    ],
-  ));
+  textSumPrice = sumPriceOfDay == 0
+      ? ''
+      : NumberFormat('###,###,###,###').format(sumPriceOfDay);
 
-  textList.add(const SizedBox(
-    height: 10,
-  ));
-  textList.add(Row(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Container(
-        padding: EdgeInsets.all(2),
-          child: Text(
-        myDB
-            .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '지명')
-            .toString(),
-        style: TextStyle(fontSize: 10, color: Colors.brown[400]),
-      )),
-      Container(
-          padding: EdgeInsets.all(2),
-          child: Text(
-        myDB
-            .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '신규')
-            .toString(),
-        style: TextStyle(fontSize: 10, color: Colors.green),
-      )),
-    ],
-  ));
+  textTypeCnt1 = myDB
+      .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '지명')
+      .toString();
+  textTypeCnt2 = myDB
+      .getDataTypeCountOfDay(DateTime(year, month, dayOfCell), '신규')
+      .toString();
 
   return [
     Container(
         padding: EdgeInsets.all(2),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: cellBorderWidth)),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-                child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: textList,
-              ),
-            )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(textDate,
+                    style: TextStyle(
+                        color: isNeedShadow ? color.withOpacity(0.5) : color)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(textSumPrice,
+                    style: TextStyle(
+                        color: isNeedShadow
+                            ? incomeTextColor.withOpacity(0.5)
+                            : incomeTextColor)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    padding: EdgeInsets.all(2),
+                    child: Text(
+                      textTypeCnt1,
+                      style: TextStyle(
+                          color: isNeedShadow
+                              ? Colors.brown.withOpacity(0.5)
+                              : Colors.brown),
+                    )),
+                Container(
+                    padding: EdgeInsets.all(2),
+                    child: Text(
+                      textTypeCnt2,
+                      style: TextStyle(
+                          color: isNeedShadow
+                              ? Colors.green.withOpacity(0.5)
+                              : Colors.green),
+                    )),
+              ],
+            ),
+            Text(
+              ' ',
+            ),
           ],
         )),
     if (isNeedShadow) notThisMonthShadowContainer,
