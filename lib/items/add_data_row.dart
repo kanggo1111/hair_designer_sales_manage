@@ -165,10 +165,10 @@ class _AddDataState extends State<AddData> {
         ),
         Row(
           children: [
-            ItemButton('지명', Colors.black87),
-            ItemButton('신규', Colors.black87),
-            ItemButton('대체', Colors.black87),
-            ItemButton('점판', Colors.black87),
+            Expanded(child: ItemButton('지명', Colors.black87)),
+            Expanded(child: ItemButton('신규', Colors.black87)),
+            Expanded(child: ItemButton('대체', Colors.black87)),
+            Expanded(child: ItemButton('점판', Colors.black87)),
           ],
         ),
         SizedBox(
@@ -233,7 +233,11 @@ class ItemButton extends StatelessWidget {
         FocusScope.of(context).requestFocus(_priceTextFieldFocusNode);
       },
       child: Container(
+        height: 40,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
+          color: Colors.indigo[50],
+          boxShadow: kElevationToShadow[2],
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black87)),
         margin: EdgeInsets.all(5),
