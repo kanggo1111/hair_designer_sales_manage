@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
-import 'package:hair_designer_sales_manage/my_widget/my_calendar/my_calendar.dart';
+import 'package:hair_designer_sales_manage/screens/calendar.dart';
 import 'package:hair_designer_sales_manage/screens/statistics_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   MaterialPageRoute _onGenerateRoute(RouteSettings setting) {
     if (setting.name == routeCalendar) {
       return MaterialPageRoute<dynamic>(
-          builder: (context) => MyCalendar(), settings: setting);
+          builder: (context) => Calendar(), settings: setting);
     }
     else if (setting.name == routeStatistics) {
       print(routeStatistics);
@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
     else if (setting.name == routeSettings) {
       print(routeSettings);
       return MaterialPageRoute<dynamic>(
-          builder: (context) => MyCalendar(), settings: setting);
+          builder: (context) => Calendar(), settings: setting);
     }
     else {
       throw Exception('Unknown route: ${setting.name}');

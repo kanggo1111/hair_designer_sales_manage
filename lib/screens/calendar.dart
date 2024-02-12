@@ -17,14 +17,14 @@ Map<String, int> weekday = {
 const double cellBorderWidth = 0.1;
 Function refreshCalendar = () {};
 
-class MyCalendar extends StatefulWidget {
-  MyCalendar({super.key});
+class Calendar extends StatefulWidget {
+  Calendar({super.key});
 
   @override
-  State<MyCalendar> createState() => _MyCalendarState();
+  State<Calendar> createState() => _CalendarState();
 }
 
-class _MyCalendarState extends State<MyCalendar> {
+class _CalendarState extends State<Calendar> {
   int currentMonth = 1; // 1 ~ 12
   int currentYear = 2024; // 1 ~ 12
   int startingCell = 1;
