@@ -245,6 +245,7 @@ class ItemButton extends StatelessWidget {
         child: Text(
           itemType,
           style: TextStyle(
+            fontSize: 16,
             color: itemTypeColor,
           ),
         ),

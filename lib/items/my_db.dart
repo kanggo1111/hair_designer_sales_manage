@@ -13,44 +13,40 @@ int sortType = dataSortType.indexOf('기록 시간순');
 // List<String> temp_itemNameList = ['커트', '펌', '염색', '오예오예오예오예오예', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색'];
 // List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000];
 List<String> itemTypeList = ['지명', '신규', '대체', '점판'];
-List<String> dataSortType = ['금액 내림차순', '금액 오름차순', '기록 시간순', '분류 내림차순', '분류 오름차순'];
-List<Function> dataSortFunc = [descendingByPrice, ascendingByPrice, ascendingByAddTime, descendingByType, ascendingByType];
+List<String> dataSortType = [
+  '금액 내림차순',
+  '금액 오름차순',
+  '기록 시간순',
+  '분류 내림차순',
+  '분류 오름차순'
+];
+List<Function> dataSortFunc = [
+  descendingByPrice,
+  ascendingByPrice,
+  ascendingByAddTime,
+  descendingByType,
+  ascendingByType
+];
 //List<String> itemTypeList2 = ['커트', '화학'];
 
-int descendingByPrice(var a, var b){
-  if(a['itemPrice'] == b['itemPrice']){
-     return descendingByType(a, b);
-  }
-  else{
-    return a['itemPrice'] > b['itemPrice'] ? -1 : 1;
-  }
+int descendingByPrice(var a, var b) {
+  return a['itemPrice'] > b['itemPrice'] ? -1 : 1;
 }
-int ascendingByPrice(var a, var b){
-  if(a['itemPrice'] == b['itemPrice']){
-    return ascendingByType(a, b);
-  }
-  else{
-    return a['itemPrice'] < b['itemPrice'] ? -1 : 1;
-  }
+
+int ascendingByPrice(var a, var b) {
+  return a['itemPrice'] < b['itemPrice'] ? -1 : 1;
 }
-int ascendingByAddTime(var a, var b){
+
+int ascendingByAddTime(var a, var b) {
   return a['id'].compareTo(b['id']);
 }
-int descendingByType(var a, var b){
-  if(a['itemType'] == b['itemType']){
-    return descendingByPrice(a, b);
-  }
-  else{
-    return b['itemType'].compareTo(a['itemType']);
-  }
+
+int descendingByType(var a, var b) {
+  return b['itemType'].compareTo(a['itemType']);
 }
-int ascendingByType(var a, var b){
-  if(a['itemType'] == b['itemType']){
-    return ascendingByPrice(a, b);
-  }
-  else{
-    return a['itemType'].compareTo(b['itemType']);
-  }
+
+int ascendingByType(var a, var b) {
+  return a['itemType'].compareTo(b['itemType']);
 }
 
 class MyDB {
@@ -156,7 +152,7 @@ class MyDB {
       }
     });
 
-    selectedList.sort((a,b) => dataSortFunc[sortType](a, b));
+    selectedList.sort((a, b) => dataSortFunc[sortType](a, b));
 
     // print(selectedList.length);
     // selectedList.forEach((element) {print(selectedList.toString());});
@@ -192,8 +188,8 @@ class MyDB {
     int sum = 0;
 
     currentData.forEach((element) {
-      if (element['date'] == DateFormat('y-MM-dd').format(now)
-      && element['itemType'] == type) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now) &&
+          element['itemType'] == type) {
         sum++;
       }
     });
@@ -201,7 +197,7 @@ class MyDB {
     return sum;
   }
 
-  void setDataSortType(int selectedSortType){
+  void setDataSortType(int selectedSortType) {
     sortType = selectedSortType;
   }
 }

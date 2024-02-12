@@ -66,19 +66,6 @@ class _MyCalendarState extends State<MyCalendar> {
     now = DateTime(currentYear, currentMonth);
   }
 
-  void showMainItemAlert(BuildContext context, DateTime now) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            insetAnimationCurve: Curves.easeIn,
-            insetAnimationDuration: Duration(milliseconds: 100),
-            backgroundColor: Colors.white,
-            child: ItemOneDay(now, refreshCalendar),
-          );
-        });
-  }
-
   void _refreshCalendar() {
     setState(() {});
   }
@@ -102,7 +89,7 @@ class _MyCalendarState extends State<MyCalendar> {
                     },
                     child: Icon(
                       Icons.arrow_left,
-                      size: 30,
+                      size: 40,
                     )),
                 const SizedBox(
                   width: 5,
@@ -124,7 +111,7 @@ class _MyCalendarState extends State<MyCalendar> {
                   },
                   child: Icon(
                     Icons.arrow_right,
-                    size: 30,
+                    size: 40,
                   ),
                 )
               ],
@@ -146,11 +133,9 @@ class _MyCalendarState extends State<MyCalendar> {
                       IconButton(
                           padding: EdgeInsets.all(10),
                           onPressed: () {
-                            // widget._navigatorKey.currentState?.pushNamed('/B');
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
                                     ItemOneDay(now, refreshCalendar)));
-                            //showMainItemAlert(context, DateTime.now());
                           },
                           icon: Icon(
                             Icons.add_circle,
@@ -314,7 +299,6 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: cellBorderWidth)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -324,41 +308,41 @@ List<Widget> getCellContent(int dayOfCell, int year, int month, Color color) {
                         color: isNeedShadow ? color.withOpacity(0.5) : color)),
               ],
             ),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(textSumPrice,
                     style: TextStyle(
+                      fontSize: 11,
                         color: isNeedShadow
                             ? incomeTextColor.withOpacity(0.5)
                             : incomeTextColor)),
               ],
             ),
+            const SizedBox(height: 5,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    padding: EdgeInsets.all(2),
+                    padding: EdgeInsets.all(5),
                     child: Text(
-                      textTypeCnt1,
+                      textTypeCnt1 != '0' ? textTypeCnt1 : ' ',
                       style: TextStyle(
                           color: isNeedShadow
                               ? Colors.brown.withOpacity(0.5)
                               : Colors.brown),
                     )),
                 Container(
-                    padding: EdgeInsets.all(2),
+                    padding: EdgeInsets.all(5),
                     child: Text(
-                      textTypeCnt2,
+                      textTypeCnt2 != '0' ? textTypeCnt2 : ' ',
                       style: TextStyle(
                           color: isNeedShadow
                               ? Colors.green.withOpacity(0.5)
                               : Colors.green),
                     )),
               ],
-            ),
-            Text(
-              ' ',
             ),
           ],
         )),
