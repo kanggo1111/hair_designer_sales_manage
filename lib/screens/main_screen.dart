@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hair_designer_sales_manage/devel.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:hair_designer_sales_manage/screens/calendar.dart';
 import 'package:hair_designer_sales_manage/screens/statistics_screen.dart';
@@ -67,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                 .of(context)
                 .size
                 .height / 12,
-            title: Text('Main Screen'),
+            title: Text('디자이너 매출 관리'),
             elevation: 0,
             actions: [
               IconButton(onPressed: () {
@@ -76,7 +77,10 @@ class _MainScreenState extends State<MainScreen> {
               IconButton(onPressed: () {
                 _navigatorKey.currentState!.pushReplacementNamed(routeStatistics);
               }, icon: Icon(Icons.bar_chart_sharp)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
+              IconButton(onPressed: () {
+                showToast('아직 지원하지 않는 기능입니다.'); // TODO
+
+              }, icon: Icon(Icons.settings)),
             ],
           ),
           body: _isLoaded

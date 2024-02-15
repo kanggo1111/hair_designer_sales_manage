@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:intl/intl.dart';
+import 'package:hair_designer_sales_manage/devel.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});
@@ -83,31 +84,37 @@ class _StatisticsState extends State<Statistics> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                  child: Container(
-                      padding: EdgeInsets.all(5),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(color: Colors.indigo),
-                          left: BorderSide(color: Colors.indigo),
-                          right: BorderSide(color: Colors.indigo),
-                          bottom: BorderSide(color: Colors.indigo),
-                        ),
+                  child: GestureDetector(
+                    onTap: (){}, // TODO
+                    child: Container(
+                        padding: EdgeInsets.all(5),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(color: Colors.indigo, width: 2),
+                            // left: BorderSide(color: Colors.indigo, width: 2),
+                            right: BorderSide(color: Colors.indigo, width: 2),
+                            //bottom: BorderSide(color: Colors.indigo),
+                          ),
 
-                      ),
-                      child: Text('월별'))),
+                        ),
+                        child: Text('월별')),
+                  )),
               Expanded(
-                  child: Container(
-                      padding: EdgeInsets.all(5),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(color: Colors.indigo),
-                            left: BorderSide(color: Colors.indigo),
-                            right: BorderSide(color: Colors.indigo),
-                            bottom: BorderSide(color: Colors.indigo)),
-                      ),
-                      child: Text('기간별'))),
+                  child: GestureDetector(
+                    onTap: (){showToast('아직 지원하지 않는 기능입니다.');}, // TODO
+                    child: Container(
+                        padding: EdgeInsets.all(5),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.indigo, width: 0.5),
+                              left: BorderSide(color: Colors.indigo, width: 0.5),
+                              // right: BorderSide(color: Colors.indigo, width: 0.5),
+                              bottom: BorderSide(color: Colors.indigo, width: 2)),
+                        ),
+                        child: Text('기간별')),
+                  )),
             ],
           ),
           const SizedBox(
