@@ -197,6 +197,32 @@ class MyDB {
     return sum;
   }
 
+  int getDataTypeCountOfMonth(DateTime now, String type) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'].startsWith(DateFormat('y-MM').format(now)) &&
+          element['itemType'] == type) {
+        sum++;
+      }
+    });
+
+    return sum;
+  }
+
+  int getSumPriceByTypeOfMonth(DateTime now, String type) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'].startsWith(DateFormat('y-MM').format(now)) &&
+          element['itemType'] == type) {
+        sum += element['itemPrice'] as int;
+      }
+    });
+
+    return sum;
+  }
+
   void setDataSortType(int selectedSortType) {
     sortType = selectedSortType;
   }
