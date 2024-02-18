@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hair_designer_sales_manage/items/add_batch_data.dart';
 import 'package:hair_designer_sales_manage/items/add_data_row.dart';
 import 'package:hair_designer_sales_manage/items/data_list.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
@@ -18,7 +19,7 @@ class ItemOneDay extends StatefulWidget {
 
 class _ItemOneDayState extends State<ItemOneDay> {
   static String dropdownValue = '기록 시간순';
-  bool batchInputMode = false;
+  bool batchInputMode = true;
 
   void initState() {
     super.initState();
@@ -228,7 +229,13 @@ class _ItemOneDayState extends State<ItemOneDay> {
             ),
           ),
           DataList(widget.now, refreshDataList),
-          AddData(widget.now, refreshDataList),
+          Divider(
+            height: 0,
+            thickness: 5,
+            color: Colors.indigo,
+          ),
+          if (batchInputMode == false) AddData(widget.now, refreshDataList),
+          if (batchInputMode == true) AddBatchData(widget.now, refreshDataList),
         ],
       ),
     );

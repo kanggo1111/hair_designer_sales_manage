@@ -62,11 +62,6 @@ class _AddDataState extends State<AddData> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(
-          height: 0,
-          thickness: 5,
-          color: Colors.indigo,
-        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
