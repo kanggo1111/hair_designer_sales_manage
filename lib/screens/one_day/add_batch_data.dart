@@ -1,6 +1,8 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hair_designer_sales_manage/items/my_db.dart';
+import 'package:intl/intl.dart';
 
 List<int> count = [0, 0, 0, 0];
 int priceOfDay = 0;
@@ -45,6 +47,14 @@ class _AddBatchDataState extends State<AddBatchData> {
                   onPressed: () {
                     if(tryValidation()){
                       // 데이터 저장
+                      //myDB.writeMyDB(widget.now, type, count, price)
+                      for(int i=0; i<count.length; i++){
+                        if(count[i] > 0){
+                          // TODO - need to discuss how to deal with two types of adding data. they cause unmatching datas for statistics
+                          myDB.writeMyDB(DateFormat('y-MM-dd').format(widget.now), itemTypeList[i], count[i], i>1 ? 0 : (priceOfDay * count[i] / (count[0] + count[1])).round());
+                        }
+                      }
+
                       widget.refreshDataList();
                     }
                   },

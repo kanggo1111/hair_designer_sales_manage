@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hair_designer_sales_manage/items/add_batch_data.dart';
-import 'package:hair_designer_sales_manage/items/add_data_row.dart';
-import 'package:hair_designer_sales_manage/items/data_list.dart';
+import 'package:hair_designer_sales_manage/screens/one_day/add_batch_data.dart';
+import 'package:hair_designer_sales_manage/screens/one_day/add_data_row.dart';
+import 'package:hair_designer_sales_manage/screens/one_day/data_list.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
@@ -152,8 +152,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                       Container(
                           margin: EdgeInsets.all(5),
                           child: Text(
-                              NumberFormat('###,###,###,###').format(
-                                  myDB.getDataTypeCountOfDay(widget.now, '지명')),
+                                  myDB.getDataTypeCountOfDay(widget.now, '지명').toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20))),
                     ],
@@ -173,8 +172,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                       Container(
                           margin: EdgeInsets.all(5),
                           child: Text(
-                              NumberFormat('###,###,###,###').format(
-                                  myDB.getDataTypeCountOfDay(widget.now, '신규')),
+                                  myDB.getDataTypeCountOfDay(widget.now, '신규').toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20))),
                     ],
@@ -194,8 +192,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                       Container(
                           margin: EdgeInsets.all(5),
                           child: Text(
-                              NumberFormat('###,###,###,###').format(
-                                  myDB.getDataListCountOfDay(widget.now)),
+                              myDB.getDataListCountOfDay(widget.now).toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20))),
                     ],

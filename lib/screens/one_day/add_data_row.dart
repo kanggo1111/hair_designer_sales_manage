@@ -22,7 +22,6 @@ class AddData extends StatefulWidget {
 }
 
 class _AddDataState extends State<AddData> {
-  int _itemPrice = 0;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -131,14 +130,7 @@ class _AddDataState extends State<AddData> {
                                 offset: _controller.value.text.length - 4));
                       },
                       onSaved: (value) async {
-                        _itemPrice = int.parse(value!.replaceAll(',', ''));
-
-                        Map data = {};
-                        data['date'] = DateFormat('y-MM-dd').format(widget.now);
-                        data['itemType'] = _itemType;
-                        data['itemPrice'] = _itemPrice;
-
-                        await myDB.writeMyDB(data);
+                        await myDB.writeMyDB(DateFormat('y-MM-dd').format(widget.now), _itemType, 1, int.parse(value!.replaceAll(',', '')));
                         //myDB.resetMyDB();
 
                         widget.refreshDataList();

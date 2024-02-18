@@ -48,13 +48,20 @@ class _DataListState extends State<DataList> {
                       Container(
                         width: screenWidth*0.11,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text(listOfDay[reverseIndex]['itemType'], style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text(listOfDay[reverseIndex]['type'], style: TextStyle(fontSize: 15), maxLines: 1),
+                      ),
+                      const SizedBox(width: 20,),
+                      Container(
+                        width: screenWidth*0.11,
+                        alignment: AlignmentDirectional.centerEnd,
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(listOfDay[reverseIndex]['count'].toString()+' 명', style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                       Container(
                         width: screenWidth*0.17,
                         alignment: AlignmentDirectional.centerEnd,
                         margin: EdgeInsets.only(left: 10),
-                        child: Text(NumberFormat('###,###,###,###').format(listOfDay[reverseIndex]['itemPrice']), style: TextStyle(fontSize: 15), maxLines: 1),
+                        child: Text(NumberFormat('###,###,###,###').format(listOfDay[reverseIndex]['price']), style: TextStyle(fontSize: 15), maxLines: 1),
                       ),
                     ],
                   ),

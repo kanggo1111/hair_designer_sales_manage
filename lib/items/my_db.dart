@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:hair_designer_sales_manage/items/Data.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,8 +11,6 @@ List<dynamic> currentData = List.empty(growable: true);
 bool readMyDBCalled = false;
 int sortType = dataSortType.indexOf('기록 시간순');
 
-// List<String> temp_itemNameList = ['커트', '펌', '염색', '오예오예오예오예오예', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색', '커트', '펌', '염색'];
-// List<int> temp_itemPriceList = [20000, 56000, 48000, 1000000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000, 20000, 56000, 48000];
 List<String> itemTypeList = ['지명', '신규', '대체', '점판'];
 List<String> dataSortType = [
   '금액 내림차순',
@@ -27,14 +26,13 @@ List<Function> dataSortFunc = [
   descendingByType,
   ascendingByType
 ];
-//List<String> itemTypeList2 = ['커트', '화학'];
 
 int descendingByPrice(var a, var b) {
-  return a['itemPrice'] > b['itemPrice'] ? -1 : 1;
+  return a['price'] > b['price'] ? -1 : 1;
 }
 
 int ascendingByPrice(var a, var b) {
-  return a['itemPrice'] < b['itemPrice'] ? -1 : 1;
+  return a['price'] < b['price'] ? -1 : 1;
 }
 
 int ascendingByAddTime(var a, var b) {
@@ -42,11 +40,11 @@ int ascendingByAddTime(var a, var b) {
 }
 
 int descendingByType(var a, var b) {
-  return b['itemType'].compareTo(a['itemType']);
+  return b['type'].compareTo(a['type']);
 }
 
 int ascendingByType(var a, var b) {
-  return a['itemType'].compareTo(b['itemType']);
+  return a['type'].compareTo(b['type']);
 }
 
 class MyDB {
@@ -68,19 +66,10 @@ class MyDB {
       final file = await _localFile;
 
       if (readMyDBCalled) return currentData;
-      // Read the file
       final contents = await file.readAsString();
-
       List readData = jsonDecode(contents);
 
-      if (readData.length != currentData.length) {
-        // TODO: fix not to overlap on hot reload
-        currentData.addAll(readData);
-      }
-      print('R1 ' + currentData.length.toString());
-      currentData.forEach((element) {
-        print('R2 ' + element.toString());
-      });
+      currentData.addAll(readData);
 
       readMyDBCalled = true;
       return currentData;
@@ -91,55 +80,32 @@ class MyDB {
     }
   }
 
-  Future<File> writeMyDB(newData) async {
+  Future<File> writeMyDB(String date, String type, int count, int price) async {
     final file = await _localFile;
 
     // Write the file
-
     String newDataId = DateFormat('yMMddHHmmssS').format(DateTime.now());
-    newData['id'] = newDataId;
 
-    //print('W1 ' + currentData.toString());
-    print('W2 ' + newData.toString());
+    Data data =
+        Data(id: newDataId, date: date, type: type, count: count, price: price);
+    currentData.add(data.toJson());
 
-    currentData.add(newData);
-    // print('W3 '+ currentData.toString());
-
-    String modifiedDataStr = jsonEncode(currentData);
-    // print('W4 '+ modifiedDataStr);
-    return file.writeAsString(modifiedDataStr);
-
-    // return file.writeAsString('', mode: FileMode.append);
+    return file.writeAsString(dataToJson(data));
   }
 
   Future<File> deleteMyDB(deleteData) async {
     final file = await _localFile;
 
     // Write the file
-
-    //print('D1 ' + currentData.toString());
-    print('D2 ' + deleteData.toString());
-
-    //currentData.add(newData);
     currentData.removeWhere((element) => element['id'] == deleteData['id']);
-
-    //print('W3 '+ currentData.toString());
 
     String modifiedDataStr = jsonEncode(currentData);
     return file.writeAsString(modifiedDataStr);
-
-    // return file.writeAsString('', mode: FileMode.append);
   }
 
   Future<File> resetMyDB() async {
     final file = await _localFile;
 
-    // file.writeAsString('');
-    // String testDataSet =
-    //     '[{"date": "2024-02-03", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "지명", "itemName": "커트", "itemPrice": 20000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-03", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "염색", "itemPrice": 48000}, {"date": "2024-02-02", "itemType": "지명", "itemName": "커트", "itemPrice": 20000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "펌", "itemPrice": 56000}, {"date": "2024-02-02", "itemType": "신규", "itemName": "염색", "itemPrice": 48000}]';
-    // return file.writeAsString(testDataSet);
-
-    // Write the file
     return file.writeAsString('[]');
   }
 
@@ -154,10 +120,20 @@ class MyDB {
 
     selectedList.sort((a, b) => dataSortFunc[sortType](a, b));
 
-    // print(selectedList.length);
-    // selectedList.forEach((element) {print(selectedList.toString());});
-
     return selectedList;
+  }
+
+  int getDataTypeCountOfDay(DateTime now, String type) {
+    int sum = 0;
+
+    currentData.forEach((element) {
+      if (element['date'] == DateFormat('y-MM-dd').format(now) &&
+          element['type'] == type) {
+        sum += element['count'] as int;
+      }
+    });
+
+    return sum;
   }
 
   int getDataListCountOfDay(DateTime now) {
@@ -165,7 +141,7 @@ class MyDB {
 
     currentData.forEach((element) {
       if (element['date'] == DateFormat('y-MM-dd').format(now)) {
-        sum++;
+        sum += element['count'] as int;
       }
     });
 
@@ -177,33 +153,21 @@ class MyDB {
 
     currentData.forEach((element) {
       if (element['date'] == DateFormat('y-MM-dd').format(now)) {
-        sum += element['itemPrice'] as int;
+        sum += element['price'] as int;
       }
     });
 
     return sum;
   }
 
-  int getDataTypeCountOfDay(DateTime now, String type) {
-    int sum = 0;
-
-    currentData.forEach((element) {
-      if (element['date'] == DateFormat('y-MM-dd').format(now) &&
-          element['itemType'] == type) {
-        sum++;
-      }
-    });
-
-    return sum;
-  }
 
   int getDataTypeCountOfMonth(DateTime now, String type) {
     int sum = 0;
 
     currentData.forEach((element) {
       if (element['date'].startsWith(DateFormat('y-MM').format(now)) &&
-          element['itemType'] == type) {
-        sum++;
+          element['type'] == type) {
+        sum += element['count'] as int;
       }
     });
 
@@ -215,8 +179,8 @@ class MyDB {
 
     currentData.forEach((element) {
       if (element['date'].startsWith(DateFormat('y-MM').format(now)) &&
-          element['itemType'] == type) {
-        sum += element['itemPrice'] as int;
+          element['type'] == type) {
+        sum += element['price'] as int;
       }
     });
 

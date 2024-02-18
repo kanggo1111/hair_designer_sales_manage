@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
-import 'package:hair_designer_sales_manage/screens/item_one_day.dart';
+import 'package:hair_designer_sales_manage/screens/one_day/item_one_day.dart';
 import 'package:intl/intl.dart';
 
 Map<String, int> weekday = {
