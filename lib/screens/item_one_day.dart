@@ -4,6 +4,7 @@ import 'package:hair_designer_sales_manage/items/data_list.dart';
 import 'package:hair_designer_sales_manage/items/my_db.dart';
 import 'package:intl/intl.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class ItemOneDay extends StatefulWidget {
   const ItemOneDay(this.now, this.refreshCalendar, {super.key});
@@ -17,6 +18,7 @@ class ItemOneDay extends StatefulWidget {
 
 class _ItemOneDayState extends State<ItemOneDay> {
   static String dropdownValue = '기록 시간순';
+  bool batchInputMode = false;
 
   void initState() {
     super.initState();
@@ -49,9 +51,10 @@ class _ItemOneDayState extends State<ItemOneDay> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                margin: EdgeInsets.fromLTRB(30, 10, 30, 0),
                 child: Text(
                   DateFormat('y. MM. dd').format(widget.now),
                   style: TextStyle(
@@ -60,40 +63,64 @@ class _ItemOneDayState extends State<ItemOneDay> {
                       color: Colors.black87),
                 ),
               ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('정렬'),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.all(5),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                          alignment: Alignment.center,
-                          isDense: true,
-                          underline: null,
-                          borderRadius: BorderRadius.circular(10),
-                          dropdownColor: Colors.indigo[100],
-                          value: dropdownValue,
-                          items: dataSortType.map((String sortType) {
-                            return DropdownMenuItem<String>(
-                              child: Text(sortType),
-                              value: sortType,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            if (value == null) {
-                              value = '기록 시간순';
-                            }
-                            setState(() {
-                              dropdownValue = value!;
-                            });
-                            myDB.setDataSortType(dataSortType.indexOf(value!));
-                            refreshDataList();
-                          }),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: FlutterSwitch(
+                        value: batchInputMode,
+                        showOnOff: true,
+                        inactiveText: '개별입력',
+                        activeText: '일괄입력',
+                        valueFontSize: 12,
+                        width: 90,
+                        height: 30,
+                        padding: 5,
+                        onToggle: (value) {
+                          setState(() {
+                            batchInputMode = value;
+                          });
+                        }),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('정렬'),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: EdgeInsets.all(5),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              alignment: Alignment.center,
+                              isDense: true,
+                              underline: null,
+                              borderRadius: BorderRadius.circular(10),
+                              dropdownColor: Colors.indigo[100],
+                              value: dropdownValue,
+                              items: dataSortType.map((String sortType) {
+                                return DropdownMenuItem<String>(
+                                  child: Text(sortType),
+                                  value: sortType,
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (value == null) {
+                                  value = '기록 시간순';
+                                }
+                                setState(() {
+                                  dropdownValue = value!;
+                                });
+                                myDB.setDataSortType(
+                                    dataSortType.indexOf(value!));
+                                refreshDataList();
+                              }),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
