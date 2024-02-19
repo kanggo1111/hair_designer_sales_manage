@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.indigo,
           useMaterial3: false,
-          pageTransitionsTheme: PageTransitionsTheme(
-              builders: <TargetPlatform, PageTransitionsBuilder>{
-                TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
-                TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
-              })
+          // pageTransitionsTheme: PageTransitionsTheme(
+          //     builders: <TargetPlatform, PageTransitionsBuilder>{
+          //       TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          //       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          //       TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
+          //       TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+          //     })
             ),
       title: 'Hair designer sales manager',
       home: MainScreen(),

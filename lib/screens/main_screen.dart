@@ -37,20 +37,36 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  MaterialPageRoute _onGenerateRoute(RouteSettings setting) {
+  Route _createRoute(Widget nextWidget, int direction) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => nextWidget,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = (direction == 1) ? Offset(1.0, 0.0) : Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  Route _onGenerateRoute(RouteSettings setting) {
     if (setting.name == routeCalendar) {
-      return MaterialPageRoute<dynamic>(
-          builder: (context) => Calendar(), settings: setting);
+      return _createRoute(Calendar(), -1);
     }
     else if (setting.name == routeStatistics) {
       print(routeStatistics);
-      return MaterialPageRoute<dynamic>(
-          builder: (context) => Statistics(), settings: setting);
+      return _createRoute(Statistics(), 1);
     }
     else if (setting.name == routeSettings) {
       print(routeSettings);
-      return MaterialPageRoute<dynamic>(
-          builder: (context) => Calendar(), settings: setting);
+      return _createRoute(Calendar(), -1);
     }
     else {
       throw Exception('Unknown route: ${setting.name}');
