@@ -19,11 +19,12 @@ class ItemOneDay extends StatefulWidget {
 
 class _ItemOneDayState extends State<ItemOneDay> {
   static String dropdownValue = '기록 시간순';
-  bool batchInputMode = true;
+  late bool batchInputMode;
 
   void initState() {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
+    batchInputMode = myConfig.config.lastInputMode!;
   }
 
   @override
@@ -72,6 +73,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                     child: FlutterSwitch(
                         value: batchInputMode,
                         showOnOff: true,
+                        inactiveColor: Colors.green,
                         inactiveText: '개별입력',
                         activeText: '일괄입력',
                         valueFontSize: 12,
@@ -81,6 +83,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
                         onToggle: (value) {
                           setState(() {
                             batchInputMode = value;
+                            myConfig.writeMyConfig(lastInputMode: batchInputMode);
                           });
                         }),
                   ),

@@ -30,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
   void _loading() async {
     myDB = MyDB();
     await myDB.readMyDB();
+    myConfig = MyConfig();
+    await myConfig.readMyConfig();
     setState(() {
       _isLoaded = true;
     });

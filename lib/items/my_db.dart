@@ -1,14 +1,20 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:hair_designer_sales_manage/items/Data.dart';
+import 'package:hair_designer_sales_manage/items/config.dart';
+import 'package:hair_designer_sales_manage/items/data.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
-const MY_DATABASE_FILE_PATH = 'my_database.txt';
+const myDBFilePath = 'my_database.txt';
+const myConfigFilePath = 'my_config.txt';
 
 late MyDB myDB;
-List<dynamic> currentData = List.empty(growable: true);
 bool readMyDBCalled = false;
+List<dynamic> currentData = List.empty(growable: true);
+
+late MyConfig myConfig;
+bool readMyConfigCalled = false;
+
 int sortType = dataSortType.indexOf('기록 시간순');
 
 List<String> itemTypeList = ['지명', '신규', '대체', '점판'];
@@ -52,18 +58,17 @@ class MyDB {
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
-  Future<File> get _localFile async {
+  Future<File> get _localDBFile async {
     final path = await _localPath;
-    return File('$path/$MY_DATABASE_FILE_PATH');
+    return File('$path/$myDBFilePath');
   }
 
   Future<List> readMyDB() async {
     try {
-      final file = await _localFile;
+      final file = await _localDBFile;
 
       if (readMyDBCalled) return currentData;
       final contents = await file.readAsString();
@@ -81,7 +86,7 @@ class MyDB {
   }
 
   Future<File> writeMyDB(String date, String type, int count, int price) async {
-    final file = await _localFile;
+    final file = await _localDBFile;
 
     // Write the file
     String newDataId = DateFormat('yMMddHHmmssS').format(DateTime.now());
@@ -94,7 +99,7 @@ class MyDB {
   }
 
   Future<File> deleteMyDB(deleteData) async {
-    final file = await _localFile;
+    final file = await _localDBFile;
 
     // Write the file
     currentData.removeWhere((element) => element['id'] == deleteData['id']);
@@ -104,7 +109,7 @@ class MyDB {
   }
 
   Future<File> resetMyDB() async {
-    final file = await _localFile;
+    final file = await _localDBFile;
 
     return file.writeAsString('[]');
   }
@@ -190,4 +195,51 @@ class MyDB {
   void setDataSortType(int selectedSortType) {
     sortType = selectedSortType;
   }
+}
+
+class MyConfig{
+  MyConfig() {
+    _config = Config(lastInputMode: false);
+  }
+
+  late Config _config;
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  Future<File> get _localConfigFile async {
+    final path = await _localPath;
+    return File('$path/$myConfigFilePath');
+  }
+
+  Future<void> readMyConfig() async {
+    try {
+      final file = await _localConfigFile;
+
+      if (readMyConfigCalled) return;
+
+      final contents = await file.readAsString();
+      _config = configFromJson(contents);
+      readMyConfigCalled = true;
+    } catch (e) {
+      // If encountering an error, return 0
+      print('readMyConfig catch');
+      return;
+    }
+  }
+
+  Future<void> writeMyConfig({bool? lastInputMode}) async {
+    final file = await _localConfigFile;
+
+    // Write the file
+    if(lastInputMode != null){
+      _config.lastInputMode = true;
+    }
+
+    await file.writeAsString(configToJson(_config));
+  }
+
+  Config get config => _config;
 }
