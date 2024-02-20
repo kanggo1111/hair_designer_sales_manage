@@ -77,6 +77,7 @@ class _StatisticsState extends State<Statistics> {
     String textTotalPrice = NumberFormat('###,###,###,###').format(totalPrice);
 
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         children: [

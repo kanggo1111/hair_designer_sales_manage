@@ -25,6 +25,7 @@ class _ItemOneDayState extends State<ItemOneDay> {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
     batchInputMode = myConfig.config.lastInputMode!;
+    print(batchInputMode);
   }
 
   @override
@@ -64,10 +65,6 @@ class _ItemOneDayState extends State<ItemOneDay> {
 
   @override
   Widget build(BuildContext context) {
-    final listViewHeight = MediaQuery.of(context).size.height * 0.6;
-    Offset panStartOffset = Offset(0, 0);
-    Offset panEndOffset = Offset(0, 0);
-
     return GestureDetector(
       onHorizontalDragEnd: (DragEndDetails details) {
         if (details.primaryVelocity! > 0) {
@@ -78,19 +75,10 @@ class _ItemOneDayState extends State<ItemOneDay> {
           Navigator.of(context).pushReplacement(_createRoute(ItemOneDay(
               DateTime(widget.now.year, widget.now.month, widget.now.day + 1),
               widget.refreshCalendar), 1));
-          //
-
-          //
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //     builder: (context) =>
-          //         ItemOneDay(
-          //             DateTime(widget.now.year, widget.now.month,
-          //                 widget.now.day + 1),
-          //             widget.refreshCalendar)));
         }
       },
       child: Container(
-        color: Colors.white70,
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -72,6 +72,7 @@ class _CalendarState extends State<Calendar> {
 
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 37, 0,
           MediaQuery.of(context).size.width / 37, 0),
       child: Column(
